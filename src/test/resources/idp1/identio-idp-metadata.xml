@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#" ID="iio-10f5cfd0-1622-40f8-aa7b-e188bd378e36"
+	entityID="https://idp.identio.net:8443/SAML2">
+	<md:IDPSSODescriptor WantAuthnRequestsSigned="false"
+		protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+		<md:KeyDescriptor use="signing">
+			<ds:KeyInfo>
+				<ds:X509Data>
+					<ds:X509Certificate>MIIE3jCCAsagAwIBAgIBATANBgkqhkiG9w0BAQUFADBQMQswCQYDVQQGEwJGUjEQMA4GA1UEChMHSWRlbnRpbzEiMCAGCSqGSIb3DQEJARYTc3VwcG9ydEBpZGVudGlvLm5ldDELMAkGA1UEAxMCQ0EwHhcNMTUwNzIxMTEzMDM3WhcNMTgwNDE2MTEzMDM3WjAyMQswCQYDVQQGEwJGUjEQMA4GA1UEChMHSWRlbnRpbzERMA8GA1UEAxMIc2FtbC1pZHAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCdcxWXAXlyDbrBGrstPV8d04MVh8NKEQY/j787NXZUGkMpMzWGo7aBc+LVMyN0dLpJQHdsIpvq8bA25+Bx/TW9MNenIDA0koYUQ+34OKpKbBqBeE8McB2xh3hzgZKmLChB1NH7q06sxc0qvydNuXU0I6tV0zkbKT1t2/Q5jBg2EkAxDpJpg83Uq2lJCBFr3jC8j7Ku8S9hQ7hSjJqY7MDiAzwIXhpSbj3ZJm6K9D7ZIkqhvMQOCCLJeMuOpLIgEVenemqxaNJgCiL3LxKKrtIpDYYpImCVS+PxuxyfAWROEBd5BpnxAb8xqBnMA+C/zQsstJLoQjBCEVkdxar2adOxAgMBAAGjgeAwgd0wHQYDVR0OBBYEFI54XFxl249IhaU7YWSUVSA8x2e9MIGABgNVHSMEeTB3gBTpuVR8xSdP9oTycq8K2MwHRvfDUaFUpFIwUDELMAkGA1UEBhMCRlIxEDAOBgNVBAoTB0lkZW50aW8xIjAgBgkqhkiG9w0BCQEWE3N1cHBvcnRAaWRlbnRpby5uZXQxCzAJBgNVBAMTAkNBggkAmPCMIDI2UG8wHgYDVR0SBBcwFYETc3VwcG9ydEBpZGVudGlvLm5ldDAMBgNVHRMBAf8EAjAAMAsGA1UdDwQEAwIF4DANBgkqhkiG9w0BAQUFAAOCAgEA1CmzrRT6ouWE/t2sxuLR4Y5/NN7vdKjuc3GXhurM5PfPpyl1+lTdZv4cAR17ycyqYKCN4X66m4/2Lac3RMyyJrIJiVz97pRTHOmoPDpRW1g3abdSwoShAX+uFRGlxFouBi/75nwsyeDjc6/N/eoYqz4myETxVBGK2UUqNK81RfPghV44SNZNp37/YkaHO6K5bYhxuYKwYoYOrc2Btmrt4gUCOxVUQSCUO6h1bAQSRMz1WGtfp9lQZNyk8ZnZ50rwn6bRi9n0C0kT5PQCmbOZGMPVTwCviVzMKAk9RId7G29VNYwS6Bd11gjh3G2GZf2S9P3eIVKa4StpsZPKQQuyDAgY/k65AXHp1GC5KeVqJJPJQ+wIqKfQW6H5n6r9TQuAyYyfRItqa0RExy74Frl7WCCq/CC2UbCSyUYKP2U74hQ9w0zkCQOenPdd7aA+WxME1NRI/zATwWQEjkKbWSygcpjgV76IBu/vUDsmk78hBgHdCn/Oc5NgFUa4aAGsqgkJlq+PIrHfIrTomWPsVjufNCR6rUzt0CnKTNxIbLGFRQx/FTIIK0Te+cdXu8o4dj342AAs/4UZbYMB7oZSuamg0ESCZW5Pge2hsy2Q1DM7F1tEsSiFjHKt0GhV5P6525n3ounuJuGwNr+is3ksCse11tkgMm+VJPBAFKxmb2d4Fp8=
+					</ds:X509Certificate>
+					<ds:X509SubjectName>CN=saml-idp, O=Identio, C=FR
+					</ds:X509SubjectName>
+				</ds:X509Data>
+			</ds:KeyInfo>
+		</md:KeyDescriptor>
+		<md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
+		</md:NameIDFormat>
+		<md:SingleSignOnService
+			Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://idp.identio.net:8443/SAML2/SSO/POST" />
+		<md:SingleSignOnService
+			Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+			Location="https://idp.identio.net:8443/SAML2/SSO/Redirect" />
+	</md:IDPSSODescriptor>
+	<md:SPSSODescriptor AuthnRequestsSigned="true"
+		WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+		<md:KeyDescriptor use="signing">
+			<ds:KeyInfo>
+				<ds:X509Data>
+					<ds:X509Certificate>MIIE3jCCAsagAwIBAgIBATANBgkqhkiG9w0BAQUFADBQMQswCQYDVQQGEwJGUjEQMA4GA1UEChMHSWRlbnRpbzEiMCAGCSqGSIb3DQEJARYTc3VwcG9ydEBpZGVudGlvLm5ldDELMAkGA1UEAxMCQ0EwHhcNMTUwNzIxMTEzMDM3WhcNMTgwNDE2MTEzMDM3WjAyMQswCQYDVQQGEwJGUjEQMA4GA1UEChMHSWRlbnRpbzERMA8GA1UEAxMIc2FtbC1pZHAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCdcxWXAXlyDbrBGrstPV8d04MVh8NKEQY/j787NXZUGkMpMzWGo7aBc+LVMyN0dLpJQHdsIpvq8bA25+Bx/TW9MNenIDA0koYUQ+34OKpKbBqBeE8McB2xh3hzgZKmLChB1NH7q06sxc0qvydNuXU0I6tV0zkbKT1t2/Q5jBg2EkAxDpJpg83Uq2lJCBFr3jC8j7Ku8S9hQ7hSjJqY7MDiAzwIXhpSbj3ZJm6K9D7ZIkqhvMQOCCLJeMuOpLIgEVenemqxaNJgCiL3LxKKrtIpDYYpImCVS+PxuxyfAWROEBd5BpnxAb8xqBnMA+C/zQsstJLoQjBCEVkdxar2adOxAgMBAAGjgeAwgd0wHQYDVR0OBBYEFI54XFxl249IhaU7YWSUVSA8x2e9MIGABgNVHSMEeTB3gBTpuVR8xSdP9oTycq8K2MwHRvfDUaFUpFIwUDELMAkGA1UEBhMCRlIxEDAOBgNVBAoTB0lkZW50aW8xIjAgBgkqhkiG9w0BCQEWE3N1cHBvcnRAaWRlbnRpby5uZXQxCzAJBgNVBAMTAkNBggkAmPCMIDI2UG8wHgYDVR0SBBcwFYETc3VwcG9ydEBpZGVudGlvLm5ldDAMBgNVHRMBAf8EAjAAMAsGA1UdDwQEAwIF4DANBgkqhkiG9w0BAQUFAAOCAgEA1CmzrRT6ouWE/t2sxuLR4Y5/NN7vdKjuc3GXhurM5PfPpyl1+lTdZv4cAR17ycyqYKCN4X66m4/2Lac3RMyyJrIJiVz97pRTHOmoPDpRW1g3abdSwoShAX+uFRGlxFouBi/75nwsyeDjc6/N/eoYqz4myETxVBGK2UUqNK81RfPghV44SNZNp37/YkaHO6K5bYhxuYKwYoYOrc2Btmrt4gUCOxVUQSCUO6h1bAQSRMz1WGtfp9lQZNyk8ZnZ50rwn6bRi9n0C0kT5PQCmbOZGMPVTwCviVzMKAk9RId7G29VNYwS6Bd11gjh3G2GZf2S9P3eIVKa4StpsZPKQQuyDAgY/k65AXHp1GC5KeVqJJPJQ+wIqKfQW6H5n6r9TQuAyYyfRItqa0RExy74Frl7WCCq/CC2UbCSyUYKP2U74hQ9w0zkCQOenPdd7aA+WxME1NRI/zATwWQEjkKbWSygcpjgV76IBu/vUDsmk78hBgHdCn/Oc5NgFUa4aAGsqgkJlq+PIrHfIrTomWPsVjufNCR6rUzt0CnKTNxIbLGFRQx/FTIIK0Te+cdXu8o4dj342AAs/4UZbYMB7oZSuamg0ESCZW5Pge2hsy2Q1DM7F1tEsSiFjHKt0GhV5P6525n3ounuJuGwNr+is3ksCse11tkgMm+VJPBAFKxmb2d4Fp8=
+					</ds:X509Certificate>
+					<ds:X509SubjectName>CN=saml-idp, O=Identio, C=FR
+					</ds:X509SubjectName>
+				</ds:X509Data>
+			</ds:KeyInfo>
+		</md:KeyDescriptor>
+		<md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
+		</md:NameIDFormat>
+		<md:AssertionConsumerService
+			Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://idp.identio.net:8443/SAML2/ACS/POST"
+			index="1" isDefault="true" />
+	</md:SPSSODescriptor>
+	<md:Organization>
+		<md:OrganizationName xml:lang="en">Ident.io IDP
+		</md:OrganizationName>
+		<md:OrganizationDisplayName xml:lang="en">Ident.io
+			IDP</md:OrganizationDisplayName>
+		<md:OrganizationURL xml:lang="en">http://identio.net
+		</md:OrganizationURL>
+	</md:Organization>
+	<md:ContactPerson contactType="other">
+		<md:SurName>Ident.io Support</md:SurName>
+		<md:EmailAddress>support@identio.net</md:EmailAddress>
+	</md:ContactPerson>
+</md:EntityDescriptor>

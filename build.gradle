@@ -1,0 +1,24 @@
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories { mavenCentral() }
+
+configurations { providedRuntime }
+
+dependencies {
+	compile("org.slf4j:slf4j-api:1.7.21")
+	compile("org.apache.santuario:xmlsec:2.0.6")
+	compile("joda-time:joda-time:2.9.3")
+	testCompile("junit:junit:4.12")
+	testRuntime("ch.qos.logback:logback-core:1.1.5")
+	testRuntime("ch.qos.logback:logback-classic:1.1.5")
+}
+
+test { testLogging.showStandardStreams = true }
+
+
+task wrapper(type: Wrapper) { gradleVersion = '2.13' }
