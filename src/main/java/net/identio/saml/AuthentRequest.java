@@ -89,10 +89,12 @@ public class AuthentRequest extends SignableSAMLObject {
 	 * @throws TechnicalException
 	 * @throws InvalidRequestException
 	 */
-	protected void init(XMLInputFactory2 xmlif, String request, boolean base64)
+	protected void init(XMLInputFactory2 xmlif, String rawRequest, boolean base64)
 			throws TechnicalException, InvalidRequestException {
 		try {
 
+			String request = rawRequest;
+			
 			if (base64) {
 				request = new String(Base64.decode(request));
 			}
@@ -179,6 +181,10 @@ public class AuthentRequest extends SignableSAMLObject {
 						authnClassRef = new ArrayList<>();
 					}
 					authnClassRef.add(parser.getElementText());
+					break;
+					
+				default:
+					// Do nothing
 					break;
 				}
 
@@ -290,7 +296,7 @@ public class AuthentRequest extends SignableSAMLObject {
 			// Add requested authentication context
 			if (authnClassRef != null) {
 				xmlw.writeStartElement(SamlConstants.PROTOCOL_NS, "RequestedAuthnContext");
-				xmlw.writeAttribute("Comparison", authnClassComparison.toString());
+				xmlw.writeAttribute("Comparison", authnClassComparison);
 
 				for (String authn : authnClassRef) {
 					xmlw.writeStartElement(SamlConstants.ASSERTION_NS, "AuthnContextClassRef");

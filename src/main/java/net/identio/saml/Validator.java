@@ -431,14 +431,14 @@ public class Validator {
 		boolean isGlobal = false;
 
 		// We check each Reference. One must be the rootId or be ""
-		rootID = "#" + rootID;
+		String refRootID = "#" + rootID;
 
 		Iterator i = signature.getSignedInfo().getReferences().iterator();
 
 		while (i.hasNext()) {
 			String uri = ((Reference) i.next()).getURI();
 
-			if ("".equals(uri) || rootID.equals(uri)) {
+			if ("".equals(uri) || refRootID.equals(uri)) {
 				isGlobal = true;
 				break;
 			}

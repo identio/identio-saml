@@ -31,9 +31,6 @@ import net.identio.saml.exceptions.TechnicalException;
 
 public class AuthentRequestTests {
 
-	public AuthentRequestTests() {
-	}
-
 	@Test
 	public void generateAndParseTest() {
 
