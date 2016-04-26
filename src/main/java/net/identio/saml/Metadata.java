@@ -356,6 +356,10 @@ public class Metadata extends SignableSAMLObject {
 			case "NameIDFormat":
 				nameIdFormats.add(parser.getElementText());
 				break;
+				
+			default:
+				// Do nothing
+				break;
 			}
 		}
 
