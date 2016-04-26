@@ -1,5 +1,7 @@
 # identio-saml
 
+[![Build Status](https://travis-ci.org/identio/identio-saml.svg?branch=master)](https://travis-ci.org/identio/identio-saml)
+
 A developer-friendly SAML 2.0 API written in Java.
 
 ### Goal
