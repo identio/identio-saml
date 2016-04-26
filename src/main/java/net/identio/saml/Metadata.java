@@ -296,6 +296,9 @@ public class Metadata extends SignableSAMLObject {
 				nameIdFormats.add(parser.getElementText());
 				break;
 
+			default:
+				// Do nothing
+				break;
 			}
 		}
 
