@@ -5,6 +5,20 @@ apply plugin: 'eclipse-wtp'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
+/*
+ * Gets the version name from the latest Git tag
+ */
+def getVersionName = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags'
+        standardOutput = stdout
+    }
+    return 'v' + stdout.toString().trim()
+}
+
+version = getVersionName()
+
 repositories { mavenCentral() }
 
 configurations { providedRuntime }
@@ -19,6 +33,5 @@ dependencies {
 }
 
 test { testLogging.showStandardStreams = true }
-
 
 task wrapper(type: Wrapper) { gradleVersion = '2.13' }

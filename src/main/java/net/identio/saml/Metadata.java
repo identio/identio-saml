@@ -186,6 +186,10 @@ public class Metadata extends SignableSAMLObject {
 				case "EmailAddress":
 					contactEmail = parser.getElementText();
 					break;
+					
+				default:
+					// Do nothing
+					break;
 				}
 			}
 
@@ -234,7 +238,10 @@ public class Metadata extends SignableSAMLObject {
 						.generateCertificate(new ByteArrayInputStream(Base64.decode(certString.getBytes())));
 				certs.add(signingCert);
 				break;
-
+				
+			default:
+				// Do nothing
+				break;
 			}
 		}
 
@@ -289,6 +296,9 @@ public class Metadata extends SignableSAMLObject {
 				nameIdFormats.add(parser.getElementText());
 				break;
 
+			default:
+				// Do nothing
+				break;
 			}
 		}
 
@@ -345,6 +355,10 @@ public class Metadata extends SignableSAMLObject {
 
 			case "NameIDFormat":
 				nameIdFormats.add(parser.getElementText());
+				break;
+				
+			default:
+				// Do nothing
 				break;
 			}
 		}

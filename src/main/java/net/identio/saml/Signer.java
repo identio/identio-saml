@@ -70,8 +70,6 @@ public class Signer {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Signer.class);
 
-	private KeyStore ks;
-	private X509Certificate cert;
 	private KeyStore.PrivateKeyEntry keyEntry;
 	private KeyInfo ki;
 
@@ -115,7 +113,7 @@ public class Signer {
 			XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
 
 			// Load the keystore and the signature certificate
-			ks = KeyStore.getInstance("PKCS12");
+			KeyStore ks = KeyStore.getInstance("PKCS12");
 
 			ks.load(ksFis, keystorePass.toCharArray());
 
@@ -129,7 +127,7 @@ public class Signer {
 
 			keyEntry = (KeyStore.PrivateKeyEntry) ks.getEntry(alias,
 					new KeyStore.PasswordProtection(keystorePass.toCharArray()));
-			cert = (X509Certificate) keyEntry.getCertificate();
+			X509Certificate cert = (X509Certificate) keyEntry.getCertificate();
 
 			if (certificateExpirationCheck) {
 				cert.checkValidity();

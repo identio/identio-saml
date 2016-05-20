@@ -64,27 +64,36 @@ public class X509KeySelector extends KeySelector {
 			XMLCryptoContext context) throws KeySelectorException {
 
 		Iterator ki = keyInfo.getContent().iterator();
+		
 		while (ki.hasNext()) {
+			
 			XMLStructure info = (XMLStructure) ki.next();
+			
 			if (!(info instanceof X509Data)) {
 				continue;
 			}
+			
 			X509Data x509Data = (X509Data) info;
 			Iterator xi = x509Data.getContent().iterator();
+			
 			while (xi.hasNext()) {
+				
 				Object o = xi.next();
+				
 				if (!(o instanceof X509Certificate)) {
 					continue;
 				}
+				
 				final PublicKey publicKey = ((X509Certificate) o).getPublicKey();
 
-				return new KeySelectorResult() {
+				KeySelectorResult result = new KeySelectorResult() {
 					@Override
 					public Key getKey() {
 						return publicKey;
 					}
 				};
-
+				
+				return result;
 			}
 		}
 

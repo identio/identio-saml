@@ -350,6 +350,10 @@ public class Assertion extends SignableSAMLObject {
 					attributes.add(new Attribute(name, type, value));
 
 					break;
+					
+					default:
+						// Do nothing
+						break;
 				}
 			}
 

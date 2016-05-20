@@ -156,6 +156,9 @@ public class AuthentResponse extends SignableSAMLObject {
 					statusMessage = parser.getElementText();
 					break;
 
+				default:
+					// Do nothing
+					break;
 				}
 			}
 
