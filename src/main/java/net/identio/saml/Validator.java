@@ -278,52 +278,44 @@ public class Validator {
 				boolean signerTrusted = isSignerTrusted(cert);
 
 				if (!signerTrusted) {
-					throw new UntrustedSignerException("Certificate is not present in metadata");
+					throw new UntrustedSignerException("Certificate is not trusted");
 				}
 
 				// Check certificate validity
 				if (certificateExpirationCheck) {
-
 					try {
 						cert.checkValidity();
 
 						// If no exception is thrown, we add it to the
 						// certificates to use
 					} catch (CertificateExpiredException e) {
-						throw new TechnicalException("Metadata certificate is expired", e);
+						throw new TechnicalException("Certificate is expired", e);
 					} catch (CertificateNotYetValidException e) {
-						throw new TechnicalException("Metadata certificate is not yet valid", e);
+						throw new TechnicalException("Certificate is not yet valid", e);
 					}
-
-				}
-
-				// We check that the signature is global and covers the entire
-				// assertion
-				if (isSignatureGlobal(signature, id)) {
-					signatureGlobal = true;
 				}
 
 				// If one signature is invalid, the whole document is invalid
 				if (!signature.validate(validateContext)) {
-					validationStatus = false;
+					throw new InvalidSignatureException("One of the signature in the document is invalid");
+				}
+
+				// We check that the signature is global and covers the entire
+				// document
+				if (isSignatureGlobal(signature, id)) {
+					signatureGlobal = true;
 				}
 
 				LOG.debug("Result of the validation of the SAML object: {}", validationStatus);
 			}
 
-			if (signatureGlobal && validationStatus) {
-				return true;
-			} else {
-
-				if (!signatureGlobal) {
-					throw new InvalidSignatureException("Could not find a global signature of the document");
-				}
-				if (!validationStatus) {
-					throw new InvalidSignatureException("One of the signature in the document is invalid");
-				}
-				return false;
+			// If one valid signature is not global to the document, we reject it
+			if (!signatureGlobal) {
+				throw new InvalidSignatureException("Could not find a global signature of the document");
 			}
 
+			return true;
+			
 		} catch (MarshalException e) {
 			throw new TechnicalException("Error when serializing XML", e);
 		} catch (XMLSignatureException e) {
