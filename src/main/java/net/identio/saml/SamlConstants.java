@@ -65,7 +65,11 @@ public class SamlConstants {
     
     public static final String STATUS_SUCCESS = "urn:oasis:names:tc:SAML:2.0:status:Success";
     public static final String STATUS_ERROR = "urn:oasis:names:tc:SAML:2.0:status:Responder";
-    
+	public static final String STATUS_REQUEST_UNSUPPORTED = "urn:oasis:names:tc:SAML:2.0:status:RequestUnsupported";
+	public static final String STATUS_NO_AUTHN_CONTEXT = "urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext";
+	public static final String STATUS_REQUEST_DENIED = "urn:oasis:names:tc:SAML:2.0:status:RequestDenied";
+	public static final String STATUS_UNSUPPORTED_BINDING = "urn:oasis:names:tc:SAML:2.0:status:UnsupportedBinding";
+	
 	public static final String BINDING_HTTP_POST = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
 	public static final String BINDING_HTTP_REDIRECT = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect";
 	
@@ -88,7 +92,7 @@ public class SamlConstants {
 	public static final String SIGNATURE_DIGEST_SHA256 = "http://www.w3.org/2001/04/xmlenc#sha256";
 	public static final String SIGNATURE_DIGEST_SHA384 = "http://www.w3.org/2001/04/xmldsig-more#sha384";
 	public static final String SIGNATURE_DIGEST_SHA512 = "http://www.w3.org/2001/04/xmlenc#sha512";
-
+	
 	public static final HashMap<String, ArrayList<String>> SUPPORTED_ALGORITHMS;
 	
     static
