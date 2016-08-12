@@ -5,4 +5,5 @@ jdk:
   - oraclejdk7
   
 after_success:
+  - if [ -e ./gradlew ]; then ./gradlew jacocoTestResport; else gradle jacocoTestReport;fi
   - bash <(curl -s https://codecov.io/bash)
