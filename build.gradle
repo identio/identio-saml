@@ -1,6 +1,7 @@
 
 apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
+apply plugin: 'idea'
 apply plugin: 'jacoco'
 
 sourceCompatibility = 1.7
