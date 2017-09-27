@@ -1,4 +1,8 @@
 
+plugins {
+	id 'com.github.ben-manes.versions' version '0.15.0'
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
@@ -27,7 +31,7 @@ configurations { providedRuntime }
 
 dependencies {
 	compile("org.slf4j:slf4j-api:1.7.25")
-	compile("org.apache.santuario:xmlsec:2.0.8")
+	compile("org.apache.santuario:xmlsec:2.1.0")
 	compile("joda-time:joda-time:2.9.9")
 	testCompile("junit:junit:4.12")
 	testRuntime("ch.qos.logback:logback-core:1.2.3")
@@ -38,8 +42,12 @@ test { testLogging.showStandardStreams = true }
 
 jacocoTestReport {
 	reports {
-		xml.enabled true
+		xml.enabled = true
   	}
 }
 
-task wrapper(type: Wrapper) { gradleVersion = '4.0' }
+dependencyUpdates {
+	revision = "release"
+}
+
+task wrapper(type: Wrapper) { gradleVersion = '4.2' }
