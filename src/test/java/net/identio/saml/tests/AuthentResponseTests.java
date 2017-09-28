@@ -82,7 +82,7 @@ public class AuthentResponseTests {
             Assert.assertEquals(issueInstant, parsedAr.getIssueInstant());
             Assert.assertEquals(false, parsedAr.isSigned());
 
-        } catch (TechnicalException | InvalidAuthentResponseException | InvalidAssertionException e) {
+        } catch (TechnicalException | InvalidAuthentResponseException e) {
             Assert.fail(e.getMessage());
         }
     }
