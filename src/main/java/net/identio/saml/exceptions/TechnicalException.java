@@ -20,9 +20,9 @@ package net.identio.saml.exceptions;
 
 public class TechnicalException extends Exception {
 
-	private static final long serialVersionUID = -3699987487171553091L;
+    private static final long serialVersionUID = -3699987487171553091L;
 
-	public TechnicalException(String s) {
+    public TechnicalException(String s) {
         super(s);
     }
 

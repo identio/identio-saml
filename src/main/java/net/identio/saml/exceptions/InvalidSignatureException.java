@@ -20,9 +20,9 @@ package net.identio.saml.exceptions;
 
 public class InvalidSignatureException extends Exception {
 
-	private static final long serialVersionUID = -8491104299541386732L;
+    private static final long serialVersionUID = -8491104299541386732L;
 
-	public InvalidSignatureException(String s) {
+    public InvalidSignatureException(String s) {
         super(s);
     }
 

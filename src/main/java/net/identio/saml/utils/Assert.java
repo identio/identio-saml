@@ -21,25 +21,21 @@ package net.identio.saml.utils;
  * Utility class to check user provided values
  *
  * @author Loeiz TANGUY
- *
  */
 public class Assert {
 
-	/**
-	 * Check if the provided value is not null
-	 * 
-	 * @param object
-	 *            Object to check
-	 * @param message
-	 *            Error message to throw
-	 * @throws IllegalArgumentException
-	 *             Thrown when the provided object is null
-	 */
-	public static void notNull(Object object, String message) throws IllegalArgumentException {
+    /**
+     * Check if the provided value is not null
+     *
+     * @param object  Object to check
+     * @param message Error message to throw
+     * @throws IllegalArgumentException Thrown when the provided object is null
+     */
+    public static void notNull(Object object, String message) throws IllegalArgumentException {
 
-		if (object == null) {
-			throw new IllegalArgumentException(message);
-		}
-	}
+        if (object == null) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 
 }

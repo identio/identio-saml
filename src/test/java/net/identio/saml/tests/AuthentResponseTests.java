@@ -31,60 +31,60 @@ import java.util.UUID;
 
 public class AuthentResponseTests {
 
-	@Test
-	public void generateAndParseTest() {
+    @Test
+    public void generateAndParseTest() {
 
-		try {
+        try {
 
-			String version = "2.0";
-			String destination = "http://sp1.identio.net/SAML2";
-			String destinationEndpoint = "http://sp1.identio.net/SAML2/ACS";
-			String issuer = "http://idp.identio.net/sp/SAML2";
-			String userId = "user1";
-			String requestId = UUID.randomUUID().toString();
-			String sessionId = UUID.randomUUID().toString();
-			String authnContext = "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport";
-			Instant authnInstant = Instant.now();
-			
-			ArrayList<String> reqAuthnCtx = new ArrayList<>();
-			reqAuthnCtx.add("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
-			reqAuthnCtx.add("urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient");
+            String version = "2.0";
+            String destination = "http://sp1.identio.net/SAML2";
+            String destinationEndpoint = "http://sp1.identio.net/SAML2/ACS";
+            String issuer = "http://idp.identio.net/sp/SAML2";
+            String userId = "user1";
+            String requestId = UUID.randomUUID().toString();
+            String sessionId = UUID.randomUUID().toString();
+            String authnContext = "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport";
+            Instant authnInstant = Instant.now();
 
-			Assertion assertion = AssertionBuilder.getInstance().setIssuer(issuer)
-					.setSubject(userId, SamlConstants.NAMEID_UNSPECIFIED)
-					.setSubjectConfirmation(SamlConstants.SUBJECT_CONFIRMATION_BEARER, requestId,
-							"http://sp1.identio.net/SAML2/ACS")
-					.setConditions(destination,
-							5,
-							3)
-					.setAuthentStatement(authnContext, authnInstant, sessionId).build();
+            ArrayList<String> reqAuthnCtx = new ArrayList<>();
+            reqAuthnCtx.add("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
+            reqAuthnCtx.add("urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient");
 
-			// Build the response
-			AuthentResponse response = AuthentResponseBuilder.getInstance()
-					.setIssuer(issuer).setStatus(true, null)
-					.setDestination(destinationEndpoint).setAssertion(assertion).build();
+            Assertion assertion = AssertionBuilder.getInstance().setIssuer(issuer)
+                    .setSubject(userId, SamlConstants.NAMEID_UNSPECIFIED)
+                    .setSubjectConfirmation(SamlConstants.SUBJECT_CONFIRMATION_BEARER, requestId,
+                            "http://sp1.identio.net/SAML2/ACS")
+                    .setConditions(destination,
+                            5,
+                            3)
+                    .setAuthentStatement(authnContext, authnInstant, sessionId).build();
 
-			// Extract generated ID and issue instant
-			String id = response.getID();
-			Instant issueInstant = response.getIssueInstant();
+            // Build the response
+            AuthentResponse response = AuthentResponseBuilder.getInstance()
+                    .setIssuer(issuer).setStatus(true, null)
+                    .setDestination(destinationEndpoint).setAssertion(assertion).build();
 
-			// Convert it to String
-			String arString = response.toString();
+            // Extract generated ID and issue instant
+            String id = response.getID();
+            Instant issueInstant = response.getIssueInstant();
 
-			// Parse it again
-			AuthentResponse parsedAr = AuthentResponseBuilder.getInstance().build(arString);
+            // Convert it to String
+            String arString = response.toString();
 
-			// Check that the parsed values are correct
-			Assert.assertEquals(version, parsedAr.getVersion());
-			Assert.assertEquals(destinationEndpoint, parsedAr.getDestination());
-			Assert.assertEquals(issuer, parsedAr.getIssuer());
-			Assert.assertEquals(id, parsedAr.getID());
-			Assert.assertEquals(issueInstant, parsedAr.getIssueInstant());
-			Assert.assertEquals(false, parsedAr.isSigned());
+            // Parse it again
+            AuthentResponse parsedAr = AuthentResponseBuilder.getInstance().build(arString);
 
-		} catch (TechnicalException | InvalidAuthentResponseException | InvalidAssertionException e) {
-			Assert.fail(e.getMessage());
-		}
-	}
+            // Check that the parsed values are correct
+            Assert.assertEquals(version, parsedAr.getVersion());
+            Assert.assertEquals(destinationEndpoint, parsedAr.getDestination());
+            Assert.assertEquals(issuer, parsedAr.getIssuer());
+            Assert.assertEquals(id, parsedAr.getID());
+            Assert.assertEquals(issueInstant, parsedAr.getIssueInstant());
+            Assert.assertEquals(false, parsedAr.isSigned());
+
+        } catch (TechnicalException | InvalidAuthentResponseException | InvalidAssertionException e) {
+            Assert.fail(e.getMessage());
+        }
+    }
 
 }

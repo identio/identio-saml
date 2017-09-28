@@ -20,9 +20,9 @@ package net.identio.saml.exceptions;
 
 public class InvalidRequestException extends Exception {
 
-	private static final long serialVersionUID = 8333886423226717677L;
+    private static final long serialVersionUID = 8333886423226717677L;
 
-	public InvalidRequestException(String s) {
+    public InvalidRequestException(String s) {
         super(s);
     }
 

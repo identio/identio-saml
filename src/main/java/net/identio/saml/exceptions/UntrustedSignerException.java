@@ -20,9 +20,9 @@ package net.identio.saml.exceptions;
 
 public class UntrustedSignerException extends Exception {
 
-	private static final long serialVersionUID = -7311309771945955547L;
+    private static final long serialVersionUID = -7311309771945955547L;
 
-	public UntrustedSignerException(String s) {
+    public UntrustedSignerException(String s) {
         super(s);
     }
 

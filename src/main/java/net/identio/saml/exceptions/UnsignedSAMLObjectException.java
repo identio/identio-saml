@@ -20,9 +20,9 @@ package net.identio.saml.exceptions;
 
 public class UnsignedSAMLObjectException extends Exception {
 
-	private static final long serialVersionUID = -4646265790577380129L;
+    private static final long serialVersionUID = -4646265790577380129L;
 
-	public UnsignedSAMLObjectException(String s) {
+    public UnsignedSAMLObjectException(String s) {
         super(s);
     }
 

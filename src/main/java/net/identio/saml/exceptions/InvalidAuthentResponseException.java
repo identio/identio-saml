@@ -20,9 +20,9 @@ package net.identio.saml.exceptions;
 
 public class InvalidAuthentResponseException extends Exception {
 
-	private static final long serialVersionUID = 4583353546164233097L;
+    private static final long serialVersionUID = 4583353546164233097L;
 
-	public InvalidAuthentResponseException(String s) {
+    public InvalidAuthentResponseException(String s) {
         super(s);
     }
 

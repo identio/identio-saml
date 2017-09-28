@@ -34,63 +34,57 @@ import java.util.Iterator;
  */
 public class X509KeySelector extends KeySelector {
 
-	/**
-	 * Attempts to find a key that satisfies the specified constraints. it's the
-	 * first public key contained in X509 certificate that match the authorized
-	 * signature methods.
-	 *
-	 * @param keyInfo
-	 *            KeyInfo of the document
-	 * @param context
-	 *            Crypto context
-	 * @param method
-	 *            Algorithm
-	 * @param purpose
-	 *            Purpose
-	 * 
-	 * @return A key that satisfies the constraints
-	 * 
-	 * @throws KeySelectorException Thrown when no keys are found in the document
-	 */
-	@SuppressWarnings("rawtypes")
-	@Override
-	public KeySelectorResult select(KeyInfo keyInfo, KeySelector.Purpose purpose, AlgorithmMethod method,
-			XMLCryptoContext context) throws KeySelectorException {
+    /**
+     * Attempts to find a key that satisfies the specified constraints. it's the
+     * first public key contained in X509 certificate that match the authorized
+     * signature methods.
+     *
+     * @param keyInfo KeyInfo of the document
+     * @param context Crypto context
+     * @param method  Algorithm
+     * @param purpose Purpose
+     * @return A key that satisfies the constraints
+     * @throws KeySelectorException Thrown when no keys are found in the document
+     */
+    @SuppressWarnings("rawtypes")
+    @Override
+    public KeySelectorResult select(KeyInfo keyInfo, KeySelector.Purpose purpose, AlgorithmMethod method,
+                                    XMLCryptoContext context) throws KeySelectorException {
 
-		Iterator ki = keyInfo.getContent().iterator();
-		
-		while (ki.hasNext()) {
-			
-			XMLStructure info = (XMLStructure) ki.next();
-			
-			if (!(info instanceof X509Data)) {
-				continue;
-			}
-			
-			X509Data x509Data = (X509Data) info;
-			Iterator xi = x509Data.getContent().iterator();
-			
-			while (xi.hasNext()) {
-				
-				Object o = xi.next();
-				
-				if (!(o instanceof X509Certificate)) {
-					continue;
-				}
-				
-				final PublicKey publicKey = ((X509Certificate) o).getPublicKey();
+        Iterator ki = keyInfo.getContent().iterator();
 
-				KeySelectorResult result = new KeySelectorResult() {
-					@Override
-					public Key getKey() {
-						return publicKey;
-					}
-				};
-				
-				return result;
-			}
-		}
+        while (ki.hasNext()) {
 
-		throw new KeySelectorException("No key found!");
-	}
+            XMLStructure info = (XMLStructure) ki.next();
+
+            if (!(info instanceof X509Data)) {
+                continue;
+            }
+
+            X509Data x509Data = (X509Data) info;
+            Iterator xi = x509Data.getContent().iterator();
+
+            while (xi.hasNext()) {
+
+                Object o = xi.next();
+
+                if (!(o instanceof X509Certificate)) {
+                    continue;
+                }
+
+                final PublicKey publicKey = ((X509Certificate) o).getPublicKey();
+
+                KeySelectorResult result = new KeySelectorResult() {
+                    @Override
+                    public Key getKey() {
+                        return publicKey;
+                    }
+                };
+
+                return result;
+            }
+        }
+
+        throw new KeySelectorException("No key found!");
+    }
 }

@@ -32,156 +32,150 @@ import java.util.List;
  * SAML metadata builder. This class must be used to generate a SAML metadata.
  *
  * @author Loeiz TANGUY
- *
  */
 public class MetadataBuilder {
 
-	private String entityID;
-	private String organizationName;
-	private String organizationDisplayName;
-	private String organizationURL;
-	private String contactName;
-	private String contactEmail;
+    private String entityID;
+    private String organizationName;
+    private String organizationDisplayName;
+    private String organizationURL;
+    private String contactName;
+    private String contactEmail;
 
-	private List<IdpSsoDescriptor> idpSsoDescriptors;
-	private List<SpSsoDescriptor> spSsoDescriptors;
+    private List<IdpSsoDescriptor> idpSsoDescriptors;
+    private List<SpSsoDescriptor> spSsoDescriptors;
 
-	private static XMLOutputFactory2 xmlof;
-	private static XMLInputFactory2 xmlif;
+    private static XMLOutputFactory2 xmlof;
+    private static XMLInputFactory2 xmlif;
 
-	static {
-		xmlof = (XMLOutputFactory2) XMLOutputFactory2.newInstance();
-		xmlif = (XMLInputFactory2) XMLInputFactory2.newInstance();
+    static {
+        xmlof = (XMLOutputFactory2) XMLOutputFactory2.newInstance();
+        xmlif = (XMLInputFactory2) XMLInputFactory2.newInstance();
 
-		// Configure factories
-		xmlif.setProperty(XMLInputFactory2.IS_REPLACING_ENTITY_REFERENCES, Boolean.FALSE);
-		xmlif.setProperty(XMLInputFactory2.SUPPORT_DTD, Boolean.FALSE);
-		xmlif.setProperty(XMLInputFactory2.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
-		xmlif.setProperty(XMLInputFactory2.IS_COALESCING, Boolean.FALSE);
-		xmlif.configureForSpeed();
+        // Configure factories
+        xmlif.setProperty(XMLInputFactory2.IS_REPLACING_ENTITY_REFERENCES, Boolean.FALSE);
+        xmlif.setProperty(XMLInputFactory2.SUPPORT_DTD, Boolean.FALSE);
+        xmlif.setProperty(XMLInputFactory2.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
+        xmlif.setProperty(XMLInputFactory2.IS_COALESCING, Boolean.FALSE);
+        xmlif.configureForSpeed();
 
-		xmlof.configureForSpeed();
-	}
+        xmlof.configureForSpeed();
+    }
 
-	protected MetadataBuilder() {
-	}
+    protected MetadataBuilder() {
+    }
 
-	public static MetadataBuilder getInstance() {
-		return new MetadataBuilder();
-	}
+    public static MetadataBuilder getInstance() {
+        return new MetadataBuilder();
+    }
 
-	public MetadataBuilder setEntityID(String entityID) {
-		this.entityID = entityID;
-		return this;
-	}
+    public MetadataBuilder setEntityID(String entityID) {
+        this.entityID = entityID;
+        return this;
+    }
 
-	public MetadataBuilder setOrganizationName(String organizationName) {
-		this.organizationName = organizationName;
-		return this;
-	}
+    public MetadataBuilder setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+        return this;
+    }
 
-	public MetadataBuilder setOrganizationDisplayName(String organizationDisplayName) {
-		this.organizationDisplayName = organizationDisplayName;
-		return this;
-	}
+    public MetadataBuilder setOrganizationDisplayName(String organizationDisplayName) {
+        this.organizationDisplayName = organizationDisplayName;
+        return this;
+    }
 
-	public MetadataBuilder setOrganizationURL(String organizationURL) {
-		this.organizationURL = organizationURL;
-		return this;
-	}
+    public MetadataBuilder setOrganizationURL(String organizationURL) {
+        this.organizationURL = organizationURL;
+        return this;
+    }
 
-	public MetadataBuilder setContactName(String contactName) {
-		this.contactName = contactName;
-		return this;
-	}
+    public MetadataBuilder setContactName(String contactName) {
+        this.contactName = contactName;
+        return this;
+    }
 
-	public MetadataBuilder setContactEmail(String contactEmail) {
-		this.contactEmail = contactEmail;
-		return this;
-	}
+    public MetadataBuilder setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+        return this;
+    }
 
-	public MetadataBuilder setIdpSsoDescriptors(List<IdpSsoDescriptor> idpSsoDescriptors) {
-		Assert.notNull(idpSsoDescriptors, "IDP descriptors can't be null.");
-		this.idpSsoDescriptors = new ArrayList<IdpSsoDescriptor>(idpSsoDescriptors);
-		return this;
-	}
+    public MetadataBuilder setIdpSsoDescriptors(List<IdpSsoDescriptor> idpSsoDescriptors) {
+        Assert.notNull(idpSsoDescriptors, "IDP descriptors can't be null.");
+        this.idpSsoDescriptors = new ArrayList<IdpSsoDescriptor>(idpSsoDescriptors);
+        return this;
+    }
 
-	public MetadataBuilder setSpSsoDescriptors(List<SpSsoDescriptor> spSsoDescriptors) {
-		Assert.notNull(spSsoDescriptors, "SP descriptors can't be null.");
-		this.spSsoDescriptors = new ArrayList<SpSsoDescriptor>(spSsoDescriptors);
-		return this;
-	}
+    public MetadataBuilder setSpSsoDescriptors(List<SpSsoDescriptor> spSsoDescriptors) {
+        Assert.notNull(spSsoDescriptors, "SP descriptors can't be null.");
+        this.spSsoDescriptors = new ArrayList<SpSsoDescriptor>(spSsoDescriptors);
+        return this;
+    }
 
-	/**
-	 * Build the metadata
-	 *
-	 * @return Built metadata
-	 * @throws TechnicalException
-	 *             Thrown when something went wrong when building the metadata
-	 */
-	public Metadata build() throws TechnicalException {
+    /**
+     * Build the metadata
+     *
+     * @return Built metadata
+     * @throws TechnicalException Thrown when something went wrong when building the metadata
+     */
+    public Metadata build() throws TechnicalException {
 
-		Metadata metadata = new Metadata();
+        Metadata metadata = new Metadata();
 
-		metadata.init(xmlof, entityID, organizationName, organizationDisplayName, organizationURL, contactName,
-				contactEmail, idpSsoDescriptors, spSsoDescriptors);
+        metadata.init(xmlof, entityID, organizationName, organizationDisplayName, organizationURL, contactName,
+                contactEmail, idpSsoDescriptors, spSsoDescriptors);
 
-		return metadata;
-	}
+        return metadata;
+    }
 
-	/**
-	 * Build a metadata from a XML file
-	 *
-	 * @param file
-	 *            Source XML file
-	 * @return Built metadata
-	 * @throws TechnicalException
-	 *             Thrown when something went wrong when building the metadata
-	 */
-	public static Metadata build(File file) throws TechnicalException {
+    /**
+     * Build a metadata from a XML file
+     *
+     * @param file Source XML file
+     * @return Built metadata
+     * @throws TechnicalException Thrown when something went wrong when building the metadata
+     */
+    public static Metadata build(File file) throws TechnicalException {
 
-		Metadata metadata = null;
-		String filepath = "";
+        Metadata metadata = null;
+        String filepath = "";
 
-		try {
+        try {
 
-			metadata = new Metadata();
+            metadata = new Metadata();
 
-			if (file != null) {
-				filepath = file.getCanonicalPath();
-			}
+            if (file != null) {
+                filepath = file.getCanonicalPath();
+            }
 
-			metadata.init(xmlif, file);
-		} catch (IOException | TechnicalException e) {
-			throw new TechnicalException("Error while building metadata from file: " + filepath, e);
-		}
-		return metadata;
-	}
+            metadata.init(xmlif, file);
+        } catch (IOException | TechnicalException e) {
+            throw new TechnicalException("Error while building metadata from file: " + filepath, e);
+        }
+        return metadata;
+    }
 
-	/**
-	 * Build a metadata from a string containing a XML document
-	 *
-	 * @param xmlData
-	 *            String containing the XML document
-	 * @return Built metadata
-	 * @throws TechnicalException
-	 *             Thrown when something went wrong when building the metadata
-	 */
-	public static Metadata build(String xmlData) throws TechnicalException {
+    /**
+     * Build a metadata from a string containing a XML document
+     *
+     * @param xmlData String containing the XML document
+     * @return Built metadata
+     * @throws TechnicalException Thrown when something went wrong when building the metadata
+     */
+    public static Metadata build(String xmlData) throws TechnicalException {
 
-		Metadata metadata = null;
+        Metadata metadata = null;
 
-		try {
+        try {
 
-			metadata = new Metadata();
+            metadata = new Metadata();
 
-			if (xmlData != null) {
-				metadata.init(xmlif, xmlData);
-			}
-		} catch (Exception e) {
-			throw new TechnicalException("Error while building metadata from string: " + xmlData, e);
-		}
+            if (xmlData != null) {
+                metadata.init(xmlif, xmlData);
+            }
+        } catch (Exception e) {
+            throw new TechnicalException("Error while building metadata from string: " + xmlData, e);
+        }
 
-		return metadata;
-	}
+        return metadata;
+    }
 }

@@ -20,9 +20,9 @@ package net.identio.saml.exceptions;
 
 public class InvalidAssertionException extends Exception {
 
-	private static final long serialVersionUID = 8138088844043805135L;
+    private static final long serialVersionUID = 8138088844043805135L;
 
-	public InvalidAssertionException(String s) {
+    public InvalidAssertionException(String s) {
         super(s);
     }
 
