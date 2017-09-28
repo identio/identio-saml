@@ -18,16 +18,16 @@ License along with this library.
 
 package net.identio.saml.tests;
 
-import java.util.ArrayList;
-
-import org.junit.Test;
-import org.joda.time.DateTime;
-import org.junit.Assert;
 import net.identio.saml.AuthentRequest;
 import net.identio.saml.AuthentRequestBuilder;
 import net.identio.saml.SamlConstants;
 import net.identio.saml.exceptions.InvalidRequestException;
 import net.identio.saml.exceptions.TechnicalException;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.time.Instant;
+import java.util.ArrayList;
 
 public class AuthentRequestTests {
 
@@ -56,7 +56,7 @@ public class AuthentRequestTests {
 
 			// Extract generated ID and issue instant
 			String id = ar.getId();
-			DateTime issueInstant = ar.getIssueInstant();
+			Instant issueInstant = ar.getIssueInstant();
 
 			// Convert it to String
 			String arString = ar.toString();
@@ -107,7 +107,7 @@ public class AuthentRequestTests {
 
 			// Extract generated ID and issue instant
 			String id = ar.getId();
-			DateTime issueInstant = ar.getIssueInstant();
+			Instant issueInstant = ar.getIssueInstant();
 
 			// Convert it to String
 			String arString = ar.toBase64();

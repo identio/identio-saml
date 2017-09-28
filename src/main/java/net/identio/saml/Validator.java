@@ -18,16 +18,12 @@ License along with this library.
 
 package net.identio.saml;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.Signature;
-import java.security.SignatureException;
-import java.security.cert.CertificateExpiredException;
-import java.security.cert.CertificateNotYetValidException;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import net.identio.saml.common.X509KeySelector;
+import net.identio.saml.exceptions.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.XMLStructure;
@@ -37,19 +33,17 @@ import javax.xml.crypto.dsig.XMLSignatureException;
 import javax.xml.crypto.dsig.XMLSignatureFactory;
 import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import javax.xml.crypto.dsig.keyinfo.X509Data;
-
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-
-import net.identio.saml.common.X509KeySelector;
-import net.identio.saml.exceptions.InvalidAssertionException;
-import net.identio.saml.exceptions.InvalidSignatureException;
-import net.identio.saml.exceptions.TechnicalException;
-import net.identio.saml.exceptions.UnsignedSAMLObjectException;
-import net.identio.saml.exceptions.UntrustedSignerException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.Signature;
+import java.security.SignatureException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.CertificateNotYetValidException;
+import java.security.cert.X509Certificate;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Utility class to validate a SAML object
@@ -372,8 +366,8 @@ public class Validator {
 	/**
 	 * Determines if a signer is trusted or not
 	 *
-	 * @param signature
-	 *            XML Signature
+	 * @param issuerCertificate
+	 *            Certificate of the issuer
 	 *
 	 * @return true if signer is trusted
 	 *
@@ -458,20 +452,22 @@ public class Validator {
 		LOG.debug("Starting Assertion time conditions validation...");
 		LOG.debug("Assertion: {}", assertion);
 
-		DateTime notBefore = assertion.getNotBefore();
-		DateTime notOnOrAfter = assertion.getNotOnOrAfter();
+		Instant now = Instant.now();
 
-		DateTime notOnOrAfterSujectConfirmation = assertion.getSubjectConfirmationNotOnOrAfter();
+		Instant notBefore = assertion.getNotBefore();
+		Instant notOnOrAfter = assertion.getNotOnOrAfter();
+
+		Instant notOnOrAfterSujectConfirmation = assertion.getSubjectConfirmationNotOnOrAfter();
 
 		if (null == notBefore || null == notOnOrAfter) {
 			throw new InvalidAssertionException("Assertion time validity condition missing");
 		}
 
-		if (notBefore.isAfterNow()) {
+		if (notBefore.isAfter(now)) {
 			throw new InvalidAssertionException("Assertion is not yet valid");
 		}
 
-		if (notOnOrAfter.isBeforeNow() || notOnOrAfterSujectConfirmation.isBeforeNow()) {
+		if (notOnOrAfter.isBefore(now) || notOnOrAfterSujectConfirmation.isBefore(now)) {
 			throw new InvalidAssertionException("Assertion is expired");
 		}
 

@@ -18,10 +18,20 @@ License along with this library.
 
 package net.identio.saml;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.UUID;
+import net.identio.saml.exceptions.InvalidAssertionException;
+import net.identio.saml.exceptions.InvalidAuthentResponseException;
+import net.identio.saml.exceptions.TechnicalException;
+import net.identio.saml.utils.XmlUtils;
+import org.codehaus.stax2.XMLInputFactory2;
+import org.codehaus.stax2.XMLOutputFactory2;
+import org.codehaus.stax2.XMLStreamReader2;
+import org.codehaus.stax2.XMLStreamWriter2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamConstants;
@@ -32,23 +42,12 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.apache.xml.security.utils.Base64;
-import org.codehaus.stax2.XMLInputFactory2;
-import org.codehaus.stax2.XMLOutputFactory2;
-import org.codehaus.stax2.XMLStreamReader2;
-import org.codehaus.stax2.XMLStreamWriter2;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
-
-import net.identio.saml.exceptions.InvalidAssertionException;
-import net.identio.saml.exceptions.InvalidAuthentResponseException;
-import net.identio.saml.exceptions.TechnicalException;
-import net.identio.saml.utils.XmlUtils;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.time.Instant;
+import java.util.Base64;
+import java.util.UUID;
 
 /**
  * Represents a SAML AuthentResponse. This object can only be constructed
@@ -65,7 +64,7 @@ public class AuthentResponse extends SignableSAMLObject {
 	private String issuer;
 	private boolean status;
 	private String statusMessage;
-	private DateTime issueInstant;
+	private Instant issueInstant;
 	private String destination;
 
 	private Assertion assertion;
@@ -81,7 +80,7 @@ public class AuthentResponse extends SignableSAMLObject {
 	 *            StAX XMLInputFactory used to parse the string
 	 * @param responseString
 	 *            String containing the XML document
-	 * @throws net.identio.saml.base.exceptions.TechnicalException
+	 * @throws TechnicalException
 	 * @throws InvalidAuthentResponseException
 	 * @throws InvalidAssertionException
 	 */
@@ -124,7 +123,7 @@ public class AuthentResponse extends SignableSAMLObject {
 					version = parser.getAttributeValue(null, "Version");
 					destination = parser.getAttributeValue(null, "Destination");
 					id = parser.getAttributeValue(null, "ID");
-					issueInstant = new DateTime(parser.getAttributeValue(null, "IssueInstant"), DateTimeZone.UTC);
+					issueInstant = Instant.parse(parser.getAttributeValue(null, "IssueInstant"));
 					break;
 
 				case "Signature":
@@ -219,7 +218,7 @@ public class AuthentResponse extends SignableSAMLObject {
 		this.assertion = assertion;
 
 		// Update time-dependent elements
-		issueInstant = new DateTime(DateTimeZone.UTC);
+		issueInstant = Instant.now();
 
 		UUID uuid = UUID.randomUUID();
 		this.id = SamlConstants.UUID_PREFIX + uuid.toString();
@@ -346,7 +345,7 @@ public class AuthentResponse extends SignableSAMLObject {
 	 *
 	 * @return Issue instant of the authentication response
 	 */
-	public DateTime getIssueInstant() {
+	public Instant getIssueInstant() {
 		return issueInstant;
 	}
 
@@ -395,7 +394,7 @@ public class AuthentResponse extends SignableSAMLObject {
 
 		LOG.debug("Starting B64 encoding of the Authentication Response...");
 
-		String b64s = Base64.encode(this.toString().getBytes()).replaceAll("\r", "").replaceAll("\n", "");
+		String b64s = Base64.getEncoder().encodeToString(this.toString().getBytes()).replaceAll("\r", "").replaceAll("\n", "");
 
 		LOG.debug("Authentication Response b64 encoded: '" + b64s + "'.");
 

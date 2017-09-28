@@ -18,21 +18,16 @@ License along with this library.
 
 package net.identio.saml.tests;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
-import org.junit.Test;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.junit.Assert;
-import net.identio.saml.Assertion;
-import net.identio.saml.AssertionBuilder;
-import net.identio.saml.AuthentResponse;
-import net.identio.saml.AuthentResponseBuilder;
-import net.identio.saml.SamlConstants;
+import net.identio.saml.*;
 import net.identio.saml.exceptions.InvalidAssertionException;
 import net.identio.saml.exceptions.InvalidAuthentResponseException;
 import net.identio.saml.exceptions.TechnicalException;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.UUID;
 
 public class AuthentResponseTests {
 
@@ -49,7 +44,7 @@ public class AuthentResponseTests {
 			String requestId = UUID.randomUUID().toString();
 			String sessionId = UUID.randomUUID().toString();
 			String authnContext = "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport";
-			DateTime authnInstant = new DateTime(DateTimeZone.UTC);
+			Instant authnInstant = Instant.now();
 			
 			ArrayList<String> reqAuthnCtx = new ArrayList<>();
 			reqAuthnCtx.add("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
@@ -71,7 +66,7 @@ public class AuthentResponseTests {
 
 			// Extract generated ID and issue instant
 			String id = response.getID();
-			DateTime issueInstant = response.getIssueInstant();
+			Instant issueInstant = response.getIssueInstant();
 
 			// Convert it to String
 			String arString = response.toString();

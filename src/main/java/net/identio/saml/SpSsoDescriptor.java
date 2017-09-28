@@ -17,11 +17,11 @@ License along with this library.
 */
 package net.identio.saml;
 
+import net.identio.saml.utils.Assert;
+
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.identio.saml.utils.Assert;
 
 /**
  * Represents a SP SSO Descriptor used in SAML Metadatas

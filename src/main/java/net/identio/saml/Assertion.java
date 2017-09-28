@@ -20,6 +20,8 @@ package net.identio.saml;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.UUID;
 import javax.xml.parsers.DocumentBuilder;
@@ -36,8 +38,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.codehaus.stax2.XMLOutputFactory2;
 import org.codehaus.stax2.XMLStreamReader2;
 import org.codehaus.stax2.XMLStreamWriter2;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -64,11 +64,11 @@ public class Assertion extends SignableSAMLObject {
 	private String subjectConfirmationInResponseTo;
 	private String subjectConfirmationRecipient;
 	private String authentMethod;
-	private DateTime authentInstant;
+	private Instant authentInstant;
 	private String audience;
-	private DateTime issueInstant;
-	private DateTime notAfter;
-	private DateTime notBefore;
+	private Instant issueInstant;
+	private Instant notAfter;
+	private Instant notBefore;
 	private ArrayList<Attribute> attributes = new ArrayList<>();
 
 	protected Assertion() {
@@ -97,7 +97,7 @@ public class Assertion extends SignableSAMLObject {
 	 *            Confirmation method of the subject identity
 	 * @param authentMethod
 	 *            Authentication method
-	 * @param authnInstant
+	 * @param authentInstant
 	 *            Authentication date
 	 * @param authentSession
 	 *            Identifier of the authentication session
@@ -113,7 +113,7 @@ public class Assertion extends SignableSAMLObject {
 	 */
 	protected void init(XMLOutputFactory2 xmlof, String version, String issuer, String subjectID, String subjectType,
 			String subjectConfirmationInResponseTo, String subjectConfirmationRecipient,
-			String subjectConfirmationMethod, String authentMethod, DateTime authentInstant, String authentSession,
+			String subjectConfirmationMethod, String authentMethod, Instant authentInstant, String authentSession,
 			String audience, int maxTimeOffset, int validityLength, ArrayList<Attribute> attributes)
 					throws TechnicalException {
 
@@ -127,7 +127,7 @@ public class Assertion extends SignableSAMLObject {
 		this.subjectConfirmationInResponseTo = subjectConfirmationInResponseTo;
 		this.subjectConfirmationRecipient = subjectConfirmationRecipient;
 		this.authentMethod = authentMethod;
-		this.authentInstant = authentInstant.toDateTime(DateTimeZone.UTC);
+		this.authentInstant = authentInstant;
 
 		if (attributes != null) {
 			this.attributes = new ArrayList<>(attributes);
@@ -136,9 +136,9 @@ public class Assertion extends SignableSAMLObject {
 		this.audience = audience;
 
 		// Update time-dependent parameters
-		issueInstant = new DateTime(DateTimeZone.UTC);
-		notAfter = new DateTime(DateTimeZone.UTC).plusMinutes(validityLength);
-		notBefore = new DateTime(DateTimeZone.UTC).minusMinutes(maxTimeOffset);
+		issueInstant = Instant.now();
+		notAfter = issueInstant.plus(validityLength, ChronoUnit.MINUTES);
+		notBefore = issueInstant.minus(maxTimeOffset, ChronoUnit.MINUTES);
 
 		UUID uuid = UUID.randomUUID();
 		this.id = SamlConstants.UUID_PREFIX + uuid.toString();
@@ -291,7 +291,7 @@ public class Assertion extends SignableSAMLObject {
 				case "Assertion":
 					version = parser.getAttributeValue(null, "Version");
 					id = parser.getAttributeValue(null, "ID");
-					issueInstant = new DateTime(parser.getAttributeValue(null, "IssueInstant"), DateTimeZone.UTC);
+					issueInstant = Instant.parse(parser.getAttributeValue(null, "IssueInstant"));
 					break;
 
 				case "Signature":
@@ -316,12 +316,12 @@ public class Assertion extends SignableSAMLObject {
 					break;
 
 				case "Conditions":
-					notBefore = new DateTime(parser.getAttributeValue(null, "NotBefore"), DateTimeZone.UTC);
-					notAfter = new DateTime(parser.getAttributeValue(null, "NotOnOrAfter"), DateTimeZone.UTC);
+					notBefore = Instant.parse(parser.getAttributeValue(null, "NotBefore"));
+					notAfter = Instant.parse(parser.getAttributeValue(null, "NotOnOrAfter"));
 					break;
 
 				case "AuthnStatement":
-					authentInstant = new DateTime(parser.getAttributeValue(null, "AuthnInstant"), DateTimeZone.UTC);
+					authentInstant = Instant.parse(parser.getAttributeValue(null, "AuthnInstant"));
 					break;
 
 				case "SubjectConfirmationData":
@@ -431,7 +431,7 @@ public class Assertion extends SignableSAMLObject {
 	 *
 	 * @return Maximum validity date of the assertion
 	 */
-	public DateTime getSubjectConfirmationNotOnOrAfter() {
+	public Instant getSubjectConfirmationNotOnOrAfter() {
 		return notAfter;
 	}
 
@@ -449,7 +449,7 @@ public class Assertion extends SignableSAMLObject {
 	 *
 	 * @return Generation date of the assertion
 	 */
-	public DateTime getIssueInstant() {
+	public Instant getIssueInstant() {
 		return issueInstant;
 	}
 
@@ -476,7 +476,7 @@ public class Assertion extends SignableSAMLObject {
 	 *
 	 * @return Date when the user was authenticated
 	 */
-	public DateTime getAuthnInstant() {
+	public Instant getAuthnInstant() {
 		return authentInstant;
 	}
 
@@ -494,7 +494,7 @@ public class Assertion extends SignableSAMLObject {
 	 *
 	 * @return Minimum validity date of the assertion
 	 */
-	public DateTime getNotBefore() {
+	public Instant getNotBefore() {
 		return notBefore;
 	}
 
@@ -503,7 +503,7 @@ public class Assertion extends SignableSAMLObject {
 	 *
 	 * @return Maximum validity date of the assertion
 	 */
-	public DateTime getNotOnOrAfter() {
+	public Instant getNotOnOrAfter() {
 		return notAfter;
 	}
 

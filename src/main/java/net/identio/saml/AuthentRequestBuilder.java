@@ -18,13 +18,12 @@ License along with this library.
 
 package net.identio.saml;
 
-import java.util.ArrayList;
-
+import net.identio.saml.exceptions.InvalidRequestException;
+import net.identio.saml.exceptions.TechnicalException;
 import org.codehaus.stax2.XMLInputFactory2;
 import org.codehaus.stax2.XMLOutputFactory2;
 
-import net.identio.saml.exceptions.InvalidRequestException;
-import net.identio.saml.exceptions.TechnicalException;
+import java.util.ArrayList;
 
 /**
  * SAML authentication requests builder. This class must be used to generate a

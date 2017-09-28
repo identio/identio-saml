@@ -4,12 +4,10 @@ plugins {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse-wtp'
-apply plugin: 'idea'
 apply plugin: 'jacoco'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 /*
  * Gets the version name from the latest Git tag
@@ -32,7 +30,6 @@ configurations { providedRuntime }
 dependencies {
 	compile("org.slf4j:slf4j-api:1.7.25")
 	compile("org.apache.santuario:xmlsec:2.1.0")
-	compile("joda-time:joda-time:2.9.9")
 	testCompile("junit:junit:4.12")
 	testRuntime("ch.qos.logback:logback-core:1.2.3")
 	testRuntime("ch.qos.logback:logback-classic:1.2.3")

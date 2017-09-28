@@ -18,16 +18,15 @@ License along with this library.
 
 package net.identio.saml;
 
+import net.identio.saml.exceptions.TechnicalException;
+import net.identio.saml.utils.Assert;
+import org.codehaus.stax2.XMLInputFactory2;
+import org.codehaus.stax2.XMLOutputFactory2;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.codehaus.stax2.XMLInputFactory2;
-import org.codehaus.stax2.XMLOutputFactory2;
-
-import net.identio.saml.exceptions.TechnicalException;
-import net.identio.saml.utils.Assert;
 
 /**
  * SAML metadata builder. This class must be used to generate a SAML metadata.

@@ -18,11 +18,17 @@ License along with this library.
 
 package net.identio.saml;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.UUID;
+import net.identio.saml.exceptions.InvalidRequestException;
+import net.identio.saml.exceptions.TechnicalException;
+import net.identio.saml.utils.XmlUtils;
+import org.codehaus.stax2.XMLInputFactory2;
+import org.codehaus.stax2.XMLOutputFactory2;
+import org.codehaus.stax2.XMLStreamReader2;
+import org.codehaus.stax2.XMLStreamWriter2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamConstants;
@@ -33,22 +39,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.apache.xml.security.exceptions.Base64DecodingException;
-import org.apache.xml.security.utils.Base64;
-import org.codehaus.stax2.XMLInputFactory2;
-import org.codehaus.stax2.XMLOutputFactory2;
-import org.codehaus.stax2.XMLStreamReader2;
-import org.codehaus.stax2.XMLStreamWriter2;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
-
-import net.identio.saml.exceptions.InvalidRequestException;
-import net.identio.saml.exceptions.TechnicalException;
-import net.identio.saml.utils.XmlUtils;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.UUID;
 
 /**
  * Represents a SAML authentication request. This object must be constructed
@@ -68,7 +65,7 @@ public class AuthentRequest extends SignableSAMLObject {
 	private String destination;
 	private boolean passive;
 	private boolean forceAuthent;
-	private DateTime issueInstant;
+	private Instant issueInstant;
 	private String authnClassComparison;
 	private Endpoint preferredEndpoint;
 	private boolean preferEndpointIndex;
@@ -84,7 +81,7 @@ public class AuthentRequest extends SignableSAMLObject {
 	 *
 	 * @param xmlif
 	 *            StAX XMLInputFactory used to parse the string
-	 * @param request
+	 * @param rawRequest
 	 *            String containing the XML document
 	 * @throws TechnicalException
 	 * @throws InvalidRequestException
@@ -96,7 +93,7 @@ public class AuthentRequest extends SignableSAMLObject {
 			String request = rawRequest;
 			
 			if (base64) {
-				request = new String(Base64.decode(request));
+				request = new String(Base64.getDecoder().decode(request));
 			}
 
 			LOG.debug("Starting SAML authentication request generation...");
@@ -136,7 +133,7 @@ public class AuthentRequest extends SignableSAMLObject {
 					forceAuthent = Boolean.parseBoolean(parser.getAttributeValue(null, "ForceAuthn"));
 					passive = Boolean.parseBoolean(parser.getAttributeValue(null, "IsPassive"));
 					id = parser.getAttributeValue(null, "ID");
-					issueInstant = new DateTime(parser.getAttributeValue(null, "IssueInstant"), DateTimeZone.UTC);
+					issueInstant = Instant.parse(parser.getAttributeValue(null, "IssueInstant"));
 
 					String protocolBinding = parser.getAttributeValue(null, "ProtocolBinding");
 					Integer assertionConsumerServiceIndex = null;
@@ -196,7 +193,7 @@ public class AuthentRequest extends SignableSAMLObject {
 			throw new TechnicalException("Error when parsing AuthnRequest", e);
 		} catch (IOException e) {
 			throw new TechnicalException("I/O error when parsing AuthnRequest", e);
-		} catch (Base64DecodingException e) {
+		} catch (IllegalArgumentException e) {
 			throw new TechnicalException("Impossible to decode Base64-encoded request", e);
 		}
 
@@ -250,7 +247,7 @@ public class AuthentRequest extends SignableSAMLObject {
 		this.preferEndpointIndex = preferEndpointIndex;
 
 		// Update time-dependent parameters
-		issueInstant = new DateTime(DateTimeZone.UTC);
+		issueInstant = Instant.now();
 
 		UUID uuid = UUID.randomUUID();
 		this.id = SamlConstants.UUID_PREFIX + uuid.toString();
@@ -382,7 +379,7 @@ public class AuthentRequest extends SignableSAMLObject {
 	 *
 	 * @return Issue instant of the authentication request
 	 */
-	public DateTime getIssueInstant() {
+	public Instant getIssueInstant() {
 		return issueInstant;
 	}
 
@@ -485,7 +482,7 @@ public class AuthentRequest extends SignableSAMLObject {
 
 		LOG.debug("Starting B64 encoding of the Authentication Request...");
 
-		String b64s = Base64.encode(this.toString().getBytes()).replaceAll("\r", "").replaceAll("\n", "");
+		String b64s = Base64.getEncoder().encodeToString(this.toString().getBytes()).replaceAll("\r", "").replaceAll("\n", "");
 
 		LOG.debug("Authentication Request b64 encoded: '" + b64s + "'.");
 

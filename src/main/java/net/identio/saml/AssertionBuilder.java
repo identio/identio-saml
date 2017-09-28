@@ -18,13 +18,12 @@ License along with this library.
 
 package net.identio.saml;
 
-import java.util.ArrayList;
-
-import org.codehaus.stax2.XMLOutputFactory2;
-import org.joda.time.DateTime;
-
 import net.identio.saml.exceptions.TechnicalException;
 import net.identio.saml.utils.Assert;
+import org.codehaus.stax2.XMLOutputFactory2;
+
+import java.time.Instant;
+import java.util.ArrayList;
 
 /**
  * SAML assertions builder. This class must be used to generate a SAML
@@ -49,7 +48,7 @@ public class AssertionBuilder {
 	private int validityLength;
 	private int maxTimeOffset;
 
-	private DateTime authentInstant;
+	private Instant authentInstant;
 	private ArrayList<Attribute> attributes;
 
 	private static XMLOutputFactory2 xmlof;
@@ -126,7 +125,7 @@ public class AssertionBuilder {
 	 *            Authentication session identifier
 	 * @return The current AssertionBuilder
 	 */
-	public AssertionBuilder setAuthentStatement(String authnMethod, DateTime authentInstant, String authentSession) {
+	public AssertionBuilder setAuthentStatement(String authnMethod, Instant authentInstant, String authentSession) {
 		this.authentMethod = authnMethod;
 		this.authentInstant = authentInstant;
 		this.authentSession = authentSession;

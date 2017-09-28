@@ -18,20 +18,15 @@ License along with this library.
 
 package net.identio.saml;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import net.identio.saml.exceptions.TechnicalException;
+import net.identio.saml.utils.XmlUtils;
+import org.codehaus.stax2.XMLInputFactory2;
+import org.codehaus.stax2.XMLOutputFactory2;
+import org.codehaus.stax2.XMLStreamReader2;
+import org.codehaus.stax2.XMLStreamWriter2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
@@ -43,19 +38,15 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.apache.xml.security.exceptions.Base64DecodingException;
-import org.apache.xml.security.utils.Base64;
-import org.codehaus.stax2.XMLInputFactory2;
-import org.codehaus.stax2.XMLOutputFactory2;
-import org.codehaus.stax2.XMLStreamReader2;
-import org.codehaus.stax2.XMLStreamWriter2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
-
-import net.identio.saml.exceptions.TechnicalException;
-import net.identio.saml.utils.XmlUtils;
+import java.io.*;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a SAML metadata. This object can only be constructed through an
@@ -84,7 +75,7 @@ public class Metadata extends SignableSAMLObject {
 	 *            StAX XMLInputFactory used to parse the string
 	 * @param metadataFile
 	 *            File containing the metadata
-	 * @throws net.identio.saml.base.exceptions.TechnicalException
+	 * @throws TechnicalException
 	 */
 	protected void init(XMLInputFactory2 xmlif, File metadataFile) throws TechnicalException {
 
@@ -124,7 +115,7 @@ public class Metadata extends SignableSAMLObject {
 	 *            StAX XMLInputFactory used to parse the string
 	 * @param metadata
 	 *            String containing the XML document
-	 * @throws net.identio.saml.base.exceptions.TechnicalException
+	 * @throws TechnicalException
 	 */
 	protected void init(XMLInputFactory2 xmlif, String metadata) throws TechnicalException {
 
@@ -202,8 +193,8 @@ public class Metadata extends SignableSAMLObject {
 
 			parser.close();
 
-		} catch (SAXException | ParserConfigurationException | XMLStreamException | Base64DecodingException
-				| CertificateException | NumberFormatException e) {
+		} catch (SAXException | ParserConfigurationException | XMLStreamException | IllegalArgumentException
+				| CertificateException e) {
 			throw new TechnicalException("Error when parsing Metadata", e);
 		} catch (IOException e) {
 			throw new TechnicalException("I/O error when parsing Metadata", e);
@@ -213,7 +204,7 @@ public class Metadata extends SignableSAMLObject {
 	}
 
 	private List<X509Certificate> parseKeyInfo(XMLStreamReader2 parser)
-			throws XMLStreamException, CertificateException, Base64DecodingException {
+			throws XMLStreamException, CertificateException {
 
 		ArrayList<X509Certificate> certs = new ArrayList<>();
 
@@ -235,7 +226,7 @@ public class Metadata extends SignableSAMLObject {
 
 				CertificateFactory fact = CertificateFactory.getInstance("X.509");
 				X509Certificate signingCert = (X509Certificate) fact
-						.generateCertificate(new ByteArrayInputStream(Base64.decode(certString.getBytes())));
+						.generateCertificate(new ByteArrayInputStream(Base64.getDecoder().decode(certString.getBytes())));
 				certs.add(signingCert);
 				break;
 				
@@ -249,7 +240,7 @@ public class Metadata extends SignableSAMLObject {
 	}
 
 	private IdpSsoDescriptor parseIdpDescriptor(XMLStreamReader2 parser)
-			throws NumberFormatException, XMLStreamException, CertificateException, Base64DecodingException {
+			throws NumberFormatException, XMLStreamException, CertificateException {
 
 		IdpSsoDescriptor descriptor = new IdpSsoDescriptor();
 		ArrayList<Endpoint> endpoints = new ArrayList<>();
@@ -309,7 +300,7 @@ public class Metadata extends SignableSAMLObject {
 	}
 
 	private SpSsoDescriptor parseSpDescriptor(XMLStreamReader2 parser)
-			throws XMLStreamException, CertificateException, Base64DecodingException, NumberFormatException {
+			throws XMLStreamException, CertificateException, NumberFormatException {
 
 		SpSsoDescriptor descriptor = new SpSsoDescriptor();
 		ArrayList<Endpoint> endpoints = new ArrayList<>();
@@ -381,7 +372,7 @@ public class Metadata extends SignableSAMLObject {
 	 *            Name of the organization
 	 * @param organizationDisplayName
 	 *            Display name of the organization
-	 * @param orgURL
+	 * @param organizationURL
 	 *            URL of the organization
 	 * @param contactName
 	 *            Name of principal contact
@@ -457,7 +448,7 @@ public class Metadata extends SignableSAMLObject {
 							xmlw.writeStartElement(SamlConstants.XMLDSIG_NS, "X509Data");
 
 							xmlw.writeStartElement(SamlConstants.XMLDSIG_NS, "X509Certificate");
-							xmlw.writeCharacters(Base64.encode(cert.getEncoded()).replaceAll("\n", ""));
+							xmlw.writeCharacters(Base64.getEncoder().encodeToString(cert.getEncoded()).replaceAll("\n", ""));
 							xmlw.writeEndElement();
 							xmlw.writeStartElement(SamlConstants.XMLDSIG_NS, "X509SubjectName");
 							xmlw.writeCharacters(cert.getSubjectDN().toString());
@@ -516,7 +507,7 @@ public class Metadata extends SignableSAMLObject {
 							xmlw.writeStartElement(SamlConstants.XMLDSIG_NS, "X509Data");
 
 							xmlw.writeStartElement(SamlConstants.XMLDSIG_NS, "X509Certificate");
-							xmlw.writeCharacters(Base64.encode(cert.getEncoded()).replaceAll("\n", ""));
+							xmlw.writeCharacters(Base64.getEncoder().encodeToString(cert.getEncoded()).replaceAll("\n", ""));
 							xmlw.writeEndElement();
 							xmlw.writeStartElement(SamlConstants.XMLDSIG_NS, "X509SubjectName");
 							xmlw.writeCharacters(cert.getSubjectDN().toString());
