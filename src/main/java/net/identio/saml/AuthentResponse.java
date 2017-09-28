@@ -18,7 +18,6 @@
 
 package net.identio.saml;
 
-import net.identio.saml.exceptions.InvalidAssertionException;
 import net.identio.saml.exceptions.InvalidAuthentResponseException;
 import net.identio.saml.exceptions.TechnicalException;
 import net.identio.saml.utils.XmlUtils;
@@ -72,17 +71,8 @@ public class AuthentResponse extends SignableSAMLObject {
 
     }
 
-    /**
-     * Constructor from a string containing a XML document
-     *
-     * @param xmlif          StAX XMLInputFactory used to parse the string
-     * @param responseString String containing the XML document
-     * @throws TechnicalException
-     * @throws InvalidAuthentResponseException
-     * @throws InvalidAssertionException
-     */
     protected void init(XMLInputFactory2 xmlif, String responseString)
-            throws TechnicalException, InvalidAuthentResponseException, InvalidAssertionException {
+            throws TechnicalException, InvalidAuthentResponseException {
 
         LOG.debug("Starting Authentication Response generation...");
 
@@ -168,7 +158,7 @@ public class AuthentResponse extends SignableSAMLObject {
     }
 
     private void buildAssertion(XMLStreamReader2 parser, DocumentBuilder db)
-            throws TechnicalException, InvalidAssertionException {
+            throws TechnicalException {
 
         Node assertionNode = doc.getElementsByTagNameNS(SamlConstants.ASSERTION_NS, "Assertion").item(0);
         Document assertionDoc = db.newDocument();
@@ -182,18 +172,6 @@ public class AuthentResponse extends SignableSAMLObject {
         LOG.debug("SAML Authentication Response generated.");
     }
 
-    /**
-     * Constructor from values of the response
-     *
-     * @param xmlof         StAX XMLOutputFactory used to generate the XML
-     * @param version       SAML version (usually 2.0)
-     * @param issuer        Identifier of the issuer
-     * @param assertion     Embedded assertion
-     * @param status        Status code
-     * @param statusMessage Status message
-     * @param destination   Destination of the response
-     * @throws TechnicalException
-     */
     protected void init(XMLOutputFactory2 xmlof, String version, String issuer, boolean status, String statusMessage,
                         String destination, Assertion assertion) throws TechnicalException {
 

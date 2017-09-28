@@ -32,16 +32,17 @@ import org.codehaus.stax2.XMLOutputFactory2;
  */
 public class AuthentResponseBuilder {
 
+    private static final String version = "2.0";
+
     private String issuer;
     private boolean status;
     private String statusMessage;
     private String destination;
     private Assertion assertion;
 
-    private String version = "2.0";
 
-    private static XMLOutputFactory2 xmlof;
-    private static XMLInputFactory2 xmlif;
+    private static final XMLOutputFactory2 xmlof;
+    private static final XMLInputFactory2 xmlif;
 
     static {
         xmlof = (XMLOutputFactory2) XMLOutputFactory2.newInstance();
@@ -110,7 +111,7 @@ public class AuthentResponseBuilder {
      * Build a response
      *
      * @return Built response
-     * @throws TechnicalException
+     * @throws TechnicalException Thrown when an error occured
      */
     public AuthentResponse build() throws TechnicalException {
 
@@ -129,7 +130,7 @@ public class AuthentResponseBuilder {
      * @throws InvalidAssertionException
      */
     public AuthentResponse build(String resp)
-            throws TechnicalException, InvalidAuthentResponseException, InvalidAssertionException {
+            throws TechnicalException, InvalidAuthentResponseException {
 
         AuthentResponse ar = new AuthentResponse();
         ar.init(xmlif, resp);

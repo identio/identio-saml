@@ -21,10 +21,8 @@ package net.identio.saml.common;
 import javax.xml.crypto.*;
 import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import javax.xml.crypto.dsig.keyinfo.X509Data;
-import java.security.Key;
 import java.security.PublicKey;
 import java.security.cert.X509Certificate;
-import java.util.Iterator;
 
 /**
  * Security class to limit the key authorized only to those that respect
@@ -51,22 +49,17 @@ public class X509KeySelector extends KeySelector {
     public KeySelectorResult select(KeyInfo keyInfo, KeySelector.Purpose purpose, AlgorithmMethod method,
                                     XMLCryptoContext context) throws KeySelectorException {
 
-        Iterator ki = keyInfo.getContent().iterator();
+        for (Object o1 : keyInfo.getContent()) {
 
-        while (ki.hasNext()) {
-
-            XMLStructure info = (XMLStructure) ki.next();
+            XMLStructure info = (XMLStructure) o1;
 
             if (!(info instanceof X509Data)) {
                 continue;
             }
 
             X509Data x509Data = (X509Data) info;
-            Iterator xi = x509Data.getContent().iterator();
 
-            while (xi.hasNext()) {
-
-                Object o = xi.next();
+            for (Object o : x509Data.getContent()) {
 
                 if (!(o instanceof X509Certificate)) {
                     continue;
@@ -74,14 +67,7 @@ public class X509KeySelector extends KeySelector {
 
                 final PublicKey publicKey = ((X509Certificate) o).getPublicKey();
 
-                KeySelectorResult result = new KeySelectorResult() {
-                    @Override
-                    public Key getKey() {
-                        return publicKey;
-                    }
-                };
-
-                return result;
+                return () -> publicKey;
             }
         }
 

@@ -58,9 +58,9 @@ public class Signer {
     private KeyStore.PrivateKeyEntry keyEntry;
     private KeyInfo ki;
 
-    private String xmlSignatureMethod;
-    private String xmlDigest;
-    private String inLineSignatureMethod;
+    private final String xmlSignatureMethod;
+    private final String xmlDigest;
+    private final String inLineSignatureMethod;
 
     /**
      * Build a signer
@@ -149,7 +149,7 @@ public class Signer {
         LOG.debug("Info To Sign: {}", infoToSign);
 
         Signature signer;
-        byte[] signature = null;
+        byte[] signature;
 
         try {
             signer = Signature.getInstance(inLineSignatureMethod);

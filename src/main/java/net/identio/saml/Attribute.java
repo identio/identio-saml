@@ -96,16 +96,15 @@ public class Attribute implements Serializable {
      * @param value Value of the attribute
      */
     public Attribute(String name, Object value) {
+        
         if (value instanceof Integer) {
             this.type = SamlConstants.ATTRIBUTE_TYPE_INTEGER;
-            this.value = ((Integer) value).toString();
         } else if (value instanceof Boolean) {
             this.type = SamlConstants.ATTRIBUTE_TYPE_BOOLEAN;
-            this.value = ((Boolean) value).toString();
         } else {
             this.type = SamlConstants.ATTRIBUTE_TYPE_STRING;
-            this.value = value.toString();
         }
         this.name = name;
+        this.value = value.toString();
     }
 }

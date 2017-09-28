@@ -87,7 +87,7 @@ public class IdpSsoDescriptor {
      * @return The list of SSO endpoints
      */
     public ArrayList<Endpoint> getSsoEndpoints() {
-        return ssoEndpoints == null ? null : new ArrayList<Endpoint>(ssoEndpoints);
+        return ssoEndpoints == null ? null : new ArrayList<>(ssoEndpoints);
     }
 
     /**
@@ -98,7 +98,7 @@ public class IdpSsoDescriptor {
      */
     public IdpSsoDescriptor setSsoEndpoints(ArrayList<Endpoint> ssoEndpoints) {
         Assert.notNull(ssoEndpoints, "Endpoints can't be null");
-        this.ssoEndpoints = new ArrayList<Endpoint>(ssoEndpoints);
+        this.ssoEndpoints = new ArrayList<>(ssoEndpoints);
         return this;
     }
 
@@ -108,7 +108,7 @@ public class IdpSsoDescriptor {
      * @return The NameId formats
      */
     public List<String> getNameIDFormat() {
-        return nameIDFormat == null ? null : new ArrayList<String>(nameIDFormat);
+        return nameIDFormat == null ? null : new ArrayList<>(nameIDFormat);
     }
 
     /**
@@ -119,7 +119,7 @@ public class IdpSsoDescriptor {
      */
     public IdpSsoDescriptor setNameIDFormat(List<String> nameIDFormat) {
         Assert.notNull(nameIDFormat, "NameId formats can't be null");
-        this.nameIDFormat = new ArrayList<String>(nameIDFormat);
+        this.nameIDFormat = new ArrayList<>(nameIDFormat);
         return this;
     }
 

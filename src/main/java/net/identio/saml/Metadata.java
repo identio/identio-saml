@@ -68,13 +68,6 @@ public class Metadata extends SignableSAMLObject {
     private List<IdpSsoDescriptor> idpSsoDescriptors;
     private List<SpSsoDescriptor> spSsoDescriptors;
 
-    /**
-     * Constructor from a file
-     *
-     * @param xmlif        StAX XMLInputFactory used to parse the string
-     * @param metadataFile File containing the metadata
-     * @throws TechnicalException
-     */
     protected void init(XMLInputFactory2 xmlif, File metadataFile) throws TechnicalException {
 
         LOG.debug("Starting Metadata generation from file: {}", metadataFile);
@@ -84,7 +77,7 @@ public class Metadata extends SignableSAMLObject {
              InputStreamReader streamReader = new InputStreamReader(fis);
              BufferedReader buffer = new BufferedReader(streamReader)) {
 
-            String line = "";
+            String line;
 
             while (null != (line = buffer.readLine())) {
                 writer.write(line);
@@ -92,11 +85,6 @@ public class Metadata extends SignableSAMLObject {
 
             writer.flush();
             String metadata = writer.toString();
-
-            if (metadataFile == null) {
-
-                throw new TechnicalException("Parsing null Metadata file");
-            }
 
             init(xmlif, metadata);
 
@@ -106,13 +94,6 @@ public class Metadata extends SignableSAMLObject {
 
     }
 
-    /**
-     * Constructor from a string containing a XML document
-     *
-     * @param xmlif    StAX XMLInputFactory used to parse the string
-     * @param metadata String containing the XML document
-     * @throws TechnicalException
-     */
     protected void init(XMLInputFactory2 xmlif, String metadata) throws TechnicalException {
 
         LOG.debug("Starting Metadata generation from metadata: {}", metadata);
@@ -357,20 +338,6 @@ public class Metadata extends SignableSAMLObject {
 
     }
 
-    /**
-     * Constructor of a SP metadata from values
-     *
-     * @param xmlof                   StAX XMLOutputFactory used to generate the XML
-     * @param entityID                Identifier of the IDP
-     * @param organizationName        Name of the organization
-     * @param organizationDisplayName Display name of the organization
-     * @param organizationURL         URL of the organization
-     * @param contactName             Name of principal contact
-     * @param contactEmail            E-mail address of the contact
-     * @param idpSsoDescriptors       List of IDP SSO descriptors to include
-     * @param spSsoDescriptors        List of SP SSO descriptors to include
-     * @throws TechnicalException
-     */
     protected void init(XMLOutputFactory2 xmlof, String entityID, String organizationName,
                         String organizationDisplayName, String organizationURL, String contactName, String contactEmail,
                         List<IdpSsoDescriptor> idpSsoDescriptors, List<SpSsoDescriptor> spSsoDescriptors)
@@ -390,10 +357,10 @@ public class Metadata extends SignableSAMLObject {
         this.contactEmail = contactEmail;
 
         if (idpSsoDescriptors != null) {
-            this.idpSsoDescriptors = new ArrayList<IdpSsoDescriptor>(idpSsoDescriptors);
+            this.idpSsoDescriptors = new ArrayList<>(idpSsoDescriptors);
         }
         if (spSsoDescriptors != null) {
-            this.spSsoDescriptors = new ArrayList<SpSsoDescriptor>(spSsoDescriptors);
+            this.spSsoDescriptors = new ArrayList<>(spSsoDescriptors);
         }
 
         try {

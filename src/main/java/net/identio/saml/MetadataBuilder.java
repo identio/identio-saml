@@ -45,8 +45,8 @@ public class MetadataBuilder {
     private List<IdpSsoDescriptor> idpSsoDescriptors;
     private List<SpSsoDescriptor> spSsoDescriptors;
 
-    private static XMLOutputFactory2 xmlof;
-    private static XMLInputFactory2 xmlif;
+    private static final XMLOutputFactory2 xmlof;
+    private static final XMLInputFactory2 xmlif;
 
     static {
         xmlof = (XMLOutputFactory2) XMLOutputFactory2.newInstance();
@@ -101,13 +101,13 @@ public class MetadataBuilder {
 
     public MetadataBuilder setIdpSsoDescriptors(List<IdpSsoDescriptor> idpSsoDescriptors) {
         Assert.notNull(idpSsoDescriptors, "IDP descriptors can't be null.");
-        this.idpSsoDescriptors = new ArrayList<IdpSsoDescriptor>(idpSsoDescriptors);
+        this.idpSsoDescriptors = new ArrayList<>(idpSsoDescriptors);
         return this;
     }
 
     public MetadataBuilder setSpSsoDescriptors(List<SpSsoDescriptor> spSsoDescriptors) {
         Assert.notNull(spSsoDescriptors, "SP descriptors can't be null.");
-        this.spSsoDescriptors = new ArrayList<SpSsoDescriptor>(spSsoDescriptors);
+        this.spSsoDescriptors = new ArrayList<>(spSsoDescriptors);
         return this;
     }
 
@@ -136,7 +136,7 @@ public class MetadataBuilder {
      */
     public static Metadata build(File file) throws TechnicalException {
 
-        Metadata metadata = null;
+        Metadata metadata;
         String filepath = "";
 
         try {
@@ -163,7 +163,7 @@ public class MetadataBuilder {
      */
     public static Metadata build(String xmlData) throws TechnicalException {
 
-        Metadata metadata = null;
+        Metadata metadata;
 
         try {
 

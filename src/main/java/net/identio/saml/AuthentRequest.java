@@ -75,14 +75,6 @@ public class AuthentRequest extends SignableSAMLObject {
 
     }
 
-    /**
-     * Constructor from a string containing a XML document
-     *
-     * @param xmlif      StAX XMLInputFactory used to parse the string
-     * @param rawRequest String containing the XML document
-     * @throws TechnicalException
-     * @throws InvalidRequestException
-     */
     protected void init(XMLInputFactory2 xmlif, String rawRequest, boolean base64)
             throws TechnicalException, InvalidRequestException {
         try {
@@ -197,21 +189,6 @@ public class AuthentRequest extends SignableSAMLObject {
 
     }
 
-    /**
-     * Constructor from values of the request
-     *
-     * @param xmlof                StAX XMLOutputFactory used to generate the XML
-     * @param version              SAML version (usually 2.0)
-     * @param issuer               Identifier of the issuer
-     * @param destination          Destination of the request
-     * @param subjectID            Identifier of the subject
-     * @param subjectType          Type of the subject
-     * @param forceAuthent         Indicates if an authentication should be forced
-     * @param passive              Indicates if the idp is allowed to interact with the user
-     * @param authnClassComparison Type of comparison for authentication context
-     * @param authnClassRef        Requested authentication context
-     * @throws TechnicalException
-     */
     protected void init(XMLOutputFactory2 xmlof, String version, String issuer, String destination, String subjectID,
                         String subjectType, boolean forceAuthent, boolean passive, String authnClassComparison,
                         ArrayList<String> authnClassRef, Endpoint preferredEndpoint, boolean preferEndpointIndex)

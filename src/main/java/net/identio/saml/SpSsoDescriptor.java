@@ -108,7 +108,7 @@ public class SpSsoDescriptor {
      * @return The list of ACS endpoints
      */
     public ArrayList<Endpoint> getAssertionConsumerServices() {
-        return assertionConsumerServices == null ? null : new ArrayList<Endpoint>(assertionConsumerServices);
+        return assertionConsumerServices == null ? null : new ArrayList<>(assertionConsumerServices);
     }
 
     /**
@@ -119,7 +119,7 @@ public class SpSsoDescriptor {
      */
     public SpSsoDescriptor setAssertionConsumerService(ArrayList<Endpoint> assertionConsumerServices) {
         Assert.notNull(assertionConsumerServices, "NameId formats can't be null");
-        this.assertionConsumerServices = new ArrayList<Endpoint>(assertionConsumerServices);
+        this.assertionConsumerServices = new ArrayList<>(assertionConsumerServices);
         return this;
     }
 
@@ -129,7 +129,7 @@ public class SpSsoDescriptor {
      * @return The NameId formats
      */
     public List<String> getNameIDFormat() {
-        return new ArrayList<String>(nameIDFormat);
+        return new ArrayList<>(nameIDFormat);
     }
 
     /**
@@ -140,7 +140,7 @@ public class SpSsoDescriptor {
      */
     public SpSsoDescriptor setNameIDFormat(List<String> nameIDFormat) {
         Assert.notNull(nameIDFormat, "NameId formats can't be null");
-        this.nameIDFormat = new ArrayList<String>(nameIDFormat);
+        this.nameIDFormat = new ArrayList<>(nameIDFormat);
         return this;
     }
 }

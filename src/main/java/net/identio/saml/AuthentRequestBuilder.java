@@ -33,6 +33,8 @@ import java.util.ArrayList;
  */
 public class AuthentRequestBuilder {
 
+    private static final String version = "2.0";
+
     private String issuer;
     private String destination;
     private String subjectID;
@@ -43,10 +45,9 @@ public class AuthentRequestBuilder {
     private ArrayList<String> requestedAuthnContext;
     private Endpoint preferredEndpoint;
     private boolean preferEndpointIndex;
-    private String version = "2.0";
 
-    private static XMLOutputFactory2 xmlof;
-    private static XMLInputFactory2 xmlif;
+    private static final XMLOutputFactory2 xmlof;
+    private static final XMLInputFactory2 xmlif;
 
     static {
         xmlof = (XMLOutputFactory2) XMLOutputFactory2.newInstance();

@@ -42,7 +42,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
-import net.identio.saml.exceptions.InvalidAssertionException;
 import net.identio.saml.exceptions.TechnicalException;
 import net.identio.saml.utils.XmlUtils;
 
@@ -74,27 +73,6 @@ public class Assertion extends SignableSAMLObject {
 
     }
 
-    /**
-     * Generates a SAML Assertion using given parameters. The XML is created
-     * using a XMLStreamWriter.
-     *
-     * @param xmlof                           XMLOutputFactory used to generate the assertion
-     * @param version                         SAML version
-     * @param issuer                          Issuer identifier
-     * @param subjectID                       Subject identifier
-     * @param subjectType                     Subject type
-     * @param subjectConfirmationInResponseTo Identifier of the previous request
-     * @param subjectConfirmationRecipient    Recipient of the assertion
-     * @param subjectConfirmationMethod       Confirmation method of the subject identity
-     * @param authentMethod                   Authentication method
-     * @param authentInstant                  Authentication date
-     * @param authentSession                  Identifier of the authentication session
-     * @param audience                        Identifier of the destination
-     * @param maxTimeOffset                   Maximum time offset acceptable
-     * @param validityLength                  Validity period of the assertion
-     * @param attributes                      Optional attributes
-     * @throws TechnicalException
-     */
     protected void init(XMLOutputFactory2 xmlof, String version, String issuer, String subjectID, String subjectType,
                         String subjectConfirmationInResponseTo, String subjectConfirmationRecipient,
                         String subjectConfirmationMethod, String authentMethod, Instant authentInstant, String authentSession,
@@ -239,17 +217,8 @@ public class Assertion extends SignableSAMLObject {
         LOG.debug("SAML assertion generated.");
     }
 
-    /**
-     * Generates a SAML Assertion using a given XMLStreamReader and a SAML
-     * assertion.
-     *
-     * @param parser       XMLStreamReader used to parse the document
-     * @param assertionDoc Assertion DOM document
-     * @throws TechnicalException
-     * @throws InvalidAssertionException
-     */
     protected void init(XMLStreamReader2 parser, Document assertionDoc)
-            throws TechnicalException, InvalidAssertionException {
+            throws TechnicalException {
 
         LOG.debug("Starting SAML assertion generation...");
 
@@ -315,7 +284,7 @@ public class Assertion extends SignableSAMLObject {
                             attributes = new ArrayList<>();
                         }
 
-                        String name = null;
+                        String name;
                         String type = null;
                         String value = null;
 

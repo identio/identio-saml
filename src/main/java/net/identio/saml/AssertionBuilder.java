@@ -33,6 +33,8 @@ import java.util.ArrayList;
  */
 public class AssertionBuilder {
 
+    private static final String version = "2.0";
+
     private String issuer;
     private String subjectID;
     private String subjectType;
@@ -43,14 +45,13 @@ public class AssertionBuilder {
     private String authentMethod;
     private String audience;
 
-    private String version = "2.0";
     private int validityLength;
     private int maxTimeOffset;
 
     private Instant authentInstant;
     private ArrayList<Attribute> attributes;
 
-    private static XMLOutputFactory2 xmlof;
+    private static final XMLOutputFactory2 xmlof;
 
     static {
         xmlof = (XMLOutputFactory2) XMLOutputFactory2.newInstance();

@@ -42,7 +42,6 @@ import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.X509Certificate;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -190,7 +189,6 @@ public class Validator {
      * Validate the signature of the given SAML object.
      *
      * @param object The signed SAML object to validate.
-     * @return True if validated
      * @throws UnsignedSAMLObjectException Thrown when the object is not signed
      * @throws UntrustedSignerException    Thrown if the signer is not trusted
      * @throws TechnicalException          Thrown when something went wrong when validating the
@@ -198,7 +196,7 @@ public class Validator {
      * @throws InvalidSignatureException   Thrown when the signature is invalid
      * @throws NoSuchAlgorithmException    Thrown when the signing algorithm is not supported
      */
-    public boolean validate(SignableSAMLObject object) throws UnsignedSAMLObjectException, TechnicalException,
+    public void validate(SignableSAMLObject object) throws UnsignedSAMLObjectException, TechnicalException,
             UntrustedSignerException, InvalidSignatureException, NoSuchAlgorithmException {
 
         LOG.debug("Validating provided SAML object...");
@@ -226,7 +224,6 @@ public class Validator {
 
             // Check every signature in the document
             boolean signatureGlobal = false;
-            boolean validationStatus = true;
 
             for (int i = 0; i < docSignature.getLength(); i++) {
                 DOMValidateContext validateContext = new DOMValidateContext(new X509KeySelector(),
@@ -259,8 +256,6 @@ public class Validator {
                     try {
                         cert.checkValidity();
 
-                        // If no exception is thrown, we add it to the
-                        // certificates to use
                     } catch (CertificateExpiredException e) {
                         throw new TechnicalException("Certificate is expired", e);
                     } catch (CertificateNotYetValidException e) {
@@ -278,8 +273,6 @@ public class Validator {
                 if (isSignatureGlobal(signature, id)) {
                     signatureGlobal = true;
                 }
-
-                LOG.debug("Result of the validation of the SAML object: {}", validationStatus);
             }
 
             // If one valid signature is not global to the document, we reject it
@@ -287,7 +280,7 @@ public class Validator {
                 throw new InvalidSignatureException("Could not find a global signature of the document");
             }
 
-            return true;
+            LOG.debug("SAML object is valid");
 
         } catch (MarshalException e) {
             throw new TechnicalException("Error when serializing XML", e);
@@ -296,38 +289,24 @@ public class Validator {
         }
     }
 
-    /**
-     * Extract X509Certificate from XMLSignature.
-     *
-     * @param signature
-     * @return
-     */
     private static X509Certificate extractCertificate(XMLSignature signature) {
 
         LOG.debug("Extracting certificate from XML signature...");
 
         X509Certificate certificate = null;
 
-        @SuppressWarnings("rawtypes")
-        Iterator ki = signature.getKeyInfo().getContent().iterator();
-
-        while (ki.hasNext()) {
-            XMLStructure info = (XMLStructure) ki.next();
+        for (Object o1 : signature.getKeyInfo().getContent()) {
+            XMLStructure info = (XMLStructure) o1;
             if (!(info instanceof X509Data)) {
                 continue;
             }
 
             X509Data x509Data = (X509Data) info;
-            @SuppressWarnings("rawtypes")
-            Iterator xi = x509Data.getContent().iterator();
 
-            while (xi.hasNext()) {
-                Object o = xi.next();
+            for (Object o : x509Data.getContent()) {
                 if (o instanceof X509Certificate) {
                     certificate = (X509Certificate) o;
                     break;
-                } else {
-                    continue;
                 }
             }
 
@@ -342,14 +321,6 @@ public class Validator {
         return certificate;
     }
 
-    /**
-     * Determines if a signer is trusted or not
-     *
-     * @param issuerCertificate Certificate of the issuer
-     * @return true if signer is trusted
-     * @throws TechnicalException
-     * @throws UntrustedSignerException
-     */
     private boolean isSignerTrusted(X509Certificate issuerCertificate) {
 
         LOG.debug("Starting validation of the given issuer certificate...");
@@ -371,16 +342,8 @@ public class Validator {
         return validationStatus;
     }
 
-    /**
-     * Determines if the signature covers all the document or not
-     *
-     * @param signature XML signature
-     * @param rootID    Root identifier
-     * @return true if the signature covers all document
-     * @throws InvalidSignatureException
-     */
     @SuppressWarnings("rawtypes")
-    private static boolean isSignatureGlobal(XMLSignature signature, String rootID) throws InvalidSignatureException {
+    private static boolean isSignatureGlobal(XMLSignature signature, String rootID) {
 
         LOG.debug("Starting signature globality check...");
         LOG.debug("Signature: {}", signature);
@@ -391,10 +354,8 @@ public class Validator {
         // We check each Reference. One must be the rootId or be ""
         String refRootID = "#" + rootID;
 
-        Iterator i = signature.getSignedInfo().getReferences().iterator();
-
-        while (i.hasNext()) {
-            String uri = ((Reference) i.next()).getURI();
+        for (Object o : signature.getSignedInfo().getReferences()) {
+            String uri = ((Reference) o).getURI();
 
             if ("".equals(uri) || refRootID.equals(uri)) {
                 isGlobal = true;

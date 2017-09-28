@@ -97,15 +97,15 @@ public class SamlConstants {
 
     static {
         SUPPORTED_ALGORITHMS = new HashMap<>();
-        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_RSA_SHA1, new ArrayList<String>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA1, "SHA1withRSA")));
-        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_RSA_SHA256, new ArrayList<String>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA256, "SHA256withRSA")));
-        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_RSA_SHA384, new ArrayList<String>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA384, "SHA384withRSA")));
-        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_RSA_SHA512, new ArrayList<String>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA512, "SHA512withRSA")));
-        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_ECDSA_SHA256, new ArrayList<String>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA256, "SHA256withECDSA")));
-        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_ECDSA_SHA384, new ArrayList<String>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA384, "SHA384withECDSA")));
-        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_ECDSA_SHA512, new ArrayList<String>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA512, "SHA512withECDSA")));
-        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_DSA_SHA1, new ArrayList<String>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA1, "SHA1withDSA")));
-        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_DSA_SHA256, new ArrayList<String>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA256, "SHA256withDSA")));
+        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_RSA_SHA1, new ArrayList<>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA1, "SHA1withRSA")));
+        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_RSA_SHA256, new ArrayList<>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA256, "SHA256withRSA")));
+        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_RSA_SHA384, new ArrayList<>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA384, "SHA384withRSA")));
+        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_RSA_SHA512, new ArrayList<>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA512, "SHA512withRSA")));
+        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_ECDSA_SHA256, new ArrayList<>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA256, "SHA256withECDSA")));
+        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_ECDSA_SHA384, new ArrayList<>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA384, "SHA384withECDSA")));
+        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_ECDSA_SHA512, new ArrayList<>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA512, "SHA512withECDSA")));
+        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_DSA_SHA1, new ArrayList<>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA1, "SHA1withDSA")));
+        SUPPORTED_ALGORITHMS.put(SamlConstants.SIGNATURE_ALG_DSA_SHA256, new ArrayList<>(Arrays.asList(SamlConstants.SIGNATURE_DIGEST_SHA256, "SHA256withDSA")));
 
     }
 }
