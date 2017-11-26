@@ -225,8 +225,10 @@ public class Signer {
                     fac.newSignatureMethod(xmlSignatureMethod, null), Collections.singletonList(ref));
 
             // Creation of a DOM Sign Context
+            Node insertionPoint = findSignatureInsertionPoint(el);
 
-            DOMSignContext dsc = new DOMSignContext(keyEntry.getPrivateKey(), el, findSignatureInsertionPoint(el));
+            DOMSignContext dsc = insertionPoint == null ? new DOMSignContext(keyEntry.getPrivateKey(), el) :
+                    new DOMSignContext(keyEntry.getPrivateKey(), el, insertionPoint);
 
             // Websphere Fix: the id is expected to be in lowercase
             dsc.setIdAttributeNS(el, null, "ID");
