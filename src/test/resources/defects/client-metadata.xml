@@ -1,0 +1,43 @@
+ <md:EntityDescriptor
+        xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+        xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+        ID="iio-af422d4e-5da5-4c88-ac28-0d93955c806f"
+        entityID="http://client.ident.io/SAML2">
+    <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+        <md:KeyDescriptor use="signing">
+            <ds:KeyInfo>
+                <ds:X509Data>
+                    <ds:X509Certificate>
+                        MIIC8DCCAdgCCQD4fI4F9CpWFjANBgkqhkiG9w0BAQUFADA6MREwDwYDVQQKEwhJZGVudC5pbzEL
+                        MAkGA1UEBhMCRlIxGDAWBgNVBAMTD0lkZW50LmlvIENsaWVudDAeFw0xNzExMjMxMzUzMzJaFw0y
+                        NzExMjExMzUzMzJaMDoxETAPBgNVBAoTCElkZW50LmlvMQswCQYDVQQGEwJGUjEYMBYGA1UEAxMP
+                        SWRlbnQuaW8gQ2xpZW50MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA54kfIoewTBMT
+                        vM331a6QzD8h0sh94CYVYQmSgDQ/Kbdx5szrnsAJMzI5PK4DK5xIiVE8ISfLrUTnBSQlDETdNFo5
+                        MDUr8AvH/DuXVwCgQKwqge8GcZAA4w1oFiiLIc2Rg/UOywa05cGIugyivrZXAmVS07nD1DryE78D
+                        QD3NjCbE4Ea1Ai0KX6YAxABFihFPWGaaBLyDHz9hJhU+ikVYSeC7brpikcH/EKO8XZj/vqke/nX4
+                        lDHlt/PClSoZ2pEWdADvxqjw2BwhDxDMaZSrUUEqGHXv6rj3NjNi8Z3QHHV3IT9I1mp8y6f8v5CY
+                        1Lh0vCHHNo0BhtTt7/oCnraATwIDAQABMA0GCSqGSIb3DQEBBQUAA4IBAQDSwoI6f5OI+aIOyfI8
+                        6xDAZ2qWp+1kKYhLMRS9jG3MOTwSbqxeJPPiXx24O4uup6sl6hug7N2qC9fxg47KuBAwMX9J86Z7
+                        S1X315zRDgjRowmMNsYWp7uaIouxsxHcOzkReDVOYGVkYS2/8l+a2H+Qwx7QGFBaF76vo7ZJCHhf
+                        29+Z3G4Rmer0JieL1ZKdI9Imf1100ymOnJRhcIGE0HzTtypkztjHWvK1ft9SlmtkFfi/rUy7uCcr
+                        eg0vybusWkUG2YcD3jQU9xfnEV9N/LFJruTxPQ7ii9/mQDAoW8e6VWzZcbIRuhVI9Df2xq7ebGpj
+                        f8Q+U1sbyAQcCDTSyKeX
+                    </ds:X509Certificate>
+                    <ds:X509SubjectName>CN=Ident.io Client, C=FR, O=Ident.io</ds:X509SubjectName>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </md:KeyDescriptor>
+        <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
+        <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://client.ident.io/SAML2/POST" index="1" isDefault="true"/>
+        <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://client.ident.io/SAML2/Redirect" index="2"/>
+    </md:SPSSODescriptor>
+    <md:Organization>
+        <md:OrganizationName xml:lang="en">Ident.io</md:OrganizationName>
+        <md:OrganizationDisplayName xml:lang="en">Ident.io</md:OrganizationDisplayName>
+        <md:OrganizationURL xml:lang="en">http://ident.io</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="other">
+        <md:SurName>Test</md:SurName>
+        <md:EmailAddress>test@ident.io</md:EmailAddress>
+    </md:ContactPerson>
+</md:EntityDescriptor>

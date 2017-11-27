@@ -199,7 +199,7 @@ public class Metadata extends SignableSAMLObject {
 
                 case "X509Certificate":
 
-                    String certString = parser.getElementText();
+                    String certString = parser.getElementText().replaceAll("\\s", "");
 
                     CertificateFactory fact = CertificateFactory.getInstance("X.509");
                     X509Certificate signingCert = (X509Certificate) fact
