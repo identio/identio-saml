@@ -29,7 +29,7 @@ configurations { providedRuntime }
 
 dependencies {
 	compile("org.slf4j:slf4j-api:1.7.25")
-	compile("org.apache.santuario:xmlsec:2.1.0")
+	compile("org.apache.santuario:xmlsec:2.1.1")
 	testCompile("junit:junit:4.12")
 	testRuntime("ch.qos.logback:logback-core:1.2.3")
 	testRuntime("ch.qos.logback:logback-classic:1.2.3")
@@ -47,4 +47,4 @@ dependencyUpdates {
 	revision = "release"
 }
 
-task wrapper(type: Wrapper) { gradleVersion = '4.2' }
+task wrapper(type: Wrapper) { gradleVersion = '4.6' }
