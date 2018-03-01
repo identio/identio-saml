@@ -210,7 +210,7 @@ public class Signer {
             prefixList.add("xsi");
 
             ExcC14NParameterSpec spec = new ExcC14NParameterSpec(prefixList);
-            Transform c14n = fac.newTransform(CanonicalizationMethod.EXCLUSIVE, spec);
+            Transform c14n = fac.newTransform(CanonicalizationMethod.EXCLUSIVE_WITH_COMMENTS, spec);
             ArrayList<Transform> transforms = new ArrayList<>();
             transforms.add(envelop);
             transforms.add(c14n);
@@ -221,7 +221,7 @@ public class Signer {
 
             // Add the SignedInfo
             SignedInfo si = fac.newSignedInfo(
-                    fac.newCanonicalizationMethod(CanonicalizationMethod.EXCLUSIVE, (C14NMethodParameterSpec) null),
+                    fac.newCanonicalizationMethod(CanonicalizationMethod.EXCLUSIVE_WITH_COMMENTS, (C14NMethodParameterSpec) null),
                     fac.newSignatureMethod(xmlSignatureMethod, null), Collections.singletonList(ref));
 
             // Creation of a DOM Sign Context
