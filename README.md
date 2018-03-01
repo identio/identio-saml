@@ -75,7 +75,7 @@ Identio-saml package repository is provided through [JitPack](https://jitpack.io
 <dependency>
 	<groupId>com.github.identio</groupId>
 	<artifactId>identio-saml</artifactId>
-	<version>2.0.1</version>
+	<version>2.0.2</version>
 </dependency>
 ```
 
@@ -93,6 +93,6 @@ allprojects {
 2. Add the dependency
 ```groovy
 dependencies {
-        compile 'com.github.identio:identio-saml:2.0.1'
+        compile 'com.github.identio:identio-saml:2.0.2'
 }
 ```
