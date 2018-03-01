@@ -47,4 +47,4 @@ dependencyUpdates {
 	revision = "release"
 }
 
-task wrapper(type: Wrapper) { gradleVersion = '4.2' }
+task wrapper(type: Wrapper) { gradleVersion = '4.6' }
