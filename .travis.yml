@@ -1,8 +1,0 @@
-language: java
-jdk:
-  - oraclejdk9
-  - oraclejdk8
-  - openjdk8
-after_success:
-  - if [ -e ./gradlew ]; then ./gradlew jacocoTestReport; else gradle jacocoTestReport;fi
-  - bash <(curl -s https://codecov.io/bash)

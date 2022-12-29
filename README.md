@@ -1,8 +1,5 @@
 # identio-saml
 
-[![Build Status](https://travis-ci.org/identio/identio-saml.svg?branch=master)](https://travis-ci.org/identio/identio-saml)
-[![Codacy Badge](https://api.codacy.com/project/badge/grade/752134ecbf2644a28e78ac71f70b53e3)](https://www.codacy.com/app/identio/identio-saml/dashboard)
-
 A developer-friendly SAML 2.0 API written in Java.
 
 ### Goal
@@ -75,7 +72,7 @@ Identio-saml package repository is provided through [JitPack](https://jitpack.io
 <dependency>
 	<groupId>com.github.identio</groupId>
 	<artifactId>identio-saml</artifactId>
-	<version>2.0.2</version>
+	<version>2.0.3</version>
 </dependency>
 ```
 
@@ -93,6 +90,6 @@ allprojects {
 2. Add the dependency
 ```groovy
 dependencies {
-        compile 'com.github.identio:identio-saml:2.0.2'
+        compile 'com.github.identio:identio-saml:2.0.3'
 }
 ```
